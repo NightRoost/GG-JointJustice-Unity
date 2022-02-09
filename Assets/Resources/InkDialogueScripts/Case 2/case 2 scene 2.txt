@@ -1,0 +1,36 @@
+&SCENE: TRAINSTATION
+&ACTOR: Arin
+&SPEAK: Arin
+Alright, I got my ticket, passport, yaoi paddle, spare clean diaper for celebrations...
+
+&SPEAK: Arin
+I'm pretty sure that's all the important stuff. Tutorial Boy said he'd already be on the train, so now I've just got to meet up with Dan and Ross.
+
+&SCENE: TwoActorScene
+&SET_ACTOR_POSITION:1,Dan
+&SET_ACTOR_POSITION:2,Ross
+
+&SPEAK: Dan
+Ah, there you are Arin! We were wondering where you were.
+
+&JUMP_TO_POSITION:2
+&SPEAK: Ross
+What took you so long?
+
+&SPEAK: Arin
+I just had to pack some extra stuff, say goodbye to my wife, furiously masturbate a few times, the usual.
+
+&JUMP_TO_POSITION:1
+&SPEAK: Dan
+Well that's good to know. Ross and I are all good, you ready to get going?
+
+&SPEAK: Arin
+Yup, I've got all the important things I need, let's hop on board the steam train!
+
+&JUMP_TO_POSITION:2
+&SPEAK: Ross
+Hey, I was going to say that!
+
+&JUMP_TO_POSITION:1
+&SPEAK: Dan
+Guess you were too slow.
