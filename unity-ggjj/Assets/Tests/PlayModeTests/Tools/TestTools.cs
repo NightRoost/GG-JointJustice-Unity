@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -56,6 +57,47 @@ namespace Tests.PlayModeTests.Tools
         public static T FindInactiveInSceneByName<T>(string name) where T : Object
         {
             return FindInactiveInScene<T>().SingleOrDefault(obj => obj.name == name);
+        }
+        
+        /// <summary>
+        /// Uses reflection to set the value of a field on a target object
+        /// </summary>
+        /// <param name="fieldName">The name of the field to set</param>
+        /// <param name="target">The object on which to set the field</param>
+        /// <param name="assignee">The object to assign to the field</param>
+        public static void SetField(string fieldName, object target, object assignee)
+        {
+            var fieldInfo = GetFieldInfo(fieldName, target.GetType());
+            fieldInfo.SetValue(assignee, target);
+        }
+
+        /// <summary>
+        /// Uses reflection to get the value of a field on a target object
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <param name="target"></param>
+        public static void GetField(string fieldName, object target)
+        {
+            var fieldInfo = GetFieldInfo(fieldName, target.GetType());
+            fieldInfo.GetValue(target);
+        }
+
+        /// <summary>
+        /// Gets a FieldInfo object containing information
+        /// about a field so its value can be accessed
+        /// </summary>
+        /// <param name="fieldName">The name of the field to create a FieldInfo for</param>
+        /// <param name="targetType">The type of object to get the field from</param>
+        /// <returns>A FieldInfo object with information about the specified field</returns>
+        /// <exception cref="MissingFieldException">Thrown when the field could not be found on the specified object type</exception>
+        private static FieldInfo GetFieldInfo(string fieldName, IReflect targetType)
+        {
+            var fieldInfo = targetType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (fieldInfo == null)
+            {
+                throw new MissingFieldException($"Could not find field {fieldName} on {targetType}");
+            }
+            return fieldInfo;
         }
     }
 }
