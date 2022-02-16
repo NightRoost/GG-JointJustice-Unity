@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class MusicFader
 {
-    /// <summary>
-    /// Float from [0..1] that represents the current volume of the music.
-    /// </summary>
-    public float NormalizedVolume { get; private set; }
+    private readonly AudioModule _audioModule;
 
+    public MusicFader(AudioModule audioModule)
+    {
+        _audioModule = audioModule;
+    }
+    
     /// <summary>
     /// To be used in a coroutine to fade in the track
     /// </summary>
@@ -17,21 +19,19 @@ public class MusicFader
         {
             if (seconds <= 0)
             {
-                NormalizedVolume = 1f;
+                _audioModule.Volume = 1f;
                 return true;
             }
 
-            NormalizedVolume += Time.deltaTime / seconds;
+            _audioModule.Volume += Time.deltaTime / seconds;
 
-            if (NormalizedVolume >= 1f)
-            {
-                NormalizedVolume = 1f;
-                return true;
-            }
-            else
+            if (!(_audioModule.Volume >= 1f))
             {
                 return false;
             }
+            
+            _audioModule.Volume = 1f;
+            return true;
         });
     }
 
@@ -45,21 +45,19 @@ public class MusicFader
         {
             if (seconds <= 0)
             {
-                NormalizedVolume = 0f;
+                _audioModule.Volume = 0f;
                 return true;
             }
 
-            NormalizedVolume -= Time.deltaTime / seconds;
+            _audioModule.Volume -= Time.deltaTime / seconds;
 
-            if (NormalizedVolume <= 0)
-            {
-                NormalizedVolume = 0;
-                return true;
-            }
-            else
+            if (!(_audioModule.Volume <= 0))
             {
                 return false;
             }
+            
+            _audioModule.Volume = 0;
+            return true;
         });
     }
 }

@@ -5,6 +5,12 @@ public class AudioModule : MonoBehaviour
 {
     private AudioSource _audioSource;
 
+    public bool IsPlaying => _audioSource.isPlaying;
+    public bool ShouldLoop
+    {
+        get => _audioSource.loop;
+        set => _audioSource.loop = value;
+    }
     public float Volume
     {
         get => _audioSource.volume;
@@ -35,5 +41,10 @@ public class AudioModule : MonoBehaviour
     public void PlayOneShot(AudioClip audioClip)
     {
         _audioSource.PlayOneShot(audioClip);
+    }
+
+    public void Stop()
+    {
+        _audioSource.Stop();
     }
 }
