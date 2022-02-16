@@ -48,7 +48,6 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
     public bool ContinueDialogue { get; set; }
     public bool AutoSkip { get; set; }
     public bool AppearInstantly { get; set; }
-    public int MaxVisibleCharacters => _textBox.maxVisibleCharacters;
     public string Text => _textBox.GetParsedText();
     public bool PrintingText { get; private set; }
 
