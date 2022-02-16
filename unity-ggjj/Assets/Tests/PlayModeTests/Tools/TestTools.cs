@@ -68,7 +68,7 @@ namespace Tests.PlayModeTests.Tools
         public static void SetField(string fieldName, object target, object assignee)
         {
             var fieldInfo = GetFieldInfo(fieldName, target.GetType());
-            fieldInfo.SetValue(assignee, target);
+            fieldInfo.SetValue(target, assignee);
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace Tests.PlayModeTests.Tools
         /// </summary>
         /// <param name="fieldName"></param>
         /// <param name="target"></param>
-        public static void GetField(string fieldName, object target)
+        public static T GetField<T>(string fieldName, object target)
         {
             var fieldInfo = GetFieldInfo(fieldName, target.GetType());
-            fieldInfo.GetValue(target);
+            return (T)fieldInfo.GetValue(target);
         }
 
         /// <summary>

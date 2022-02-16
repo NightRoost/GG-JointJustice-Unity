@@ -16,7 +16,7 @@ namespace Tests.PlayModeTests.Scripts.AudioController
     public class AudioControllerTests
     {
         private const string MUSIC_PATH = "Audio/Music/";
-
+        
         [UnityTest]
         public IEnumerator AudioController_PlaySong_FadesBetweenSongs()
         {
@@ -24,17 +24,16 @@ namespace Tests.PlayModeTests.Scripts.AudioController
             audioControllerGameObject.AddComponent<AudioListener>(); // required to prevent excessive warnings
             var musicPlayer = audioControllerGameObject.AddComponent<MusicPlayer>();
             var audioModule = audioControllerGameObject.GetComponent<AudioModule>();
-
+            var dialogueController = audioControllerGameObject.AddComponent<global::DialogueController>();
+            TestTools.SetField("_dialogueController", musicPlayer, dialogueController);
+            TestTools.SetField("_activeNarrativeScript", dialogueController, CreateMockNarrativeScript().Object);
+            
             // expect error due to missing DirectorActionDecoder
             LogAssert.Expect(LogType.Exception, "NullReferenceException: Object reference not set to an instance of an object");
+            LogAssert.Expect(LogType.Exception, "NullReferenceException: Object reference not set to an instance of an object");
             yield return null;
-            
-            var type = musicPlayer.GetType().GetField("_transitionDuration", BindingFlags.NonPublic | BindingFlags.Instance);
-            Assert.IsNotNull(type);
-            float transitionDuration = (float)type.GetValue(musicPlayer);
 
-            var dialogueControllerMock = CreateDialogueControllerMock();
-            TestTools.SetField("_dialogueController", dialogueControllerMock.Object, musicPlayer);
+            var transitionDuration = TestTools.GetField<float>("_transitionDuration", musicPlayer);
 
             // setup and verify steady state of music playing for a while
             musicPlayer.PlaySong("ABoyAndHisTrial");
@@ -74,21 +73,13 @@ namespace Tests.PlayModeTests.Scripts.AudioController
             // Assert.AreEqual(thirdSong.name, audioSource.clip.name);
         }
 
-        private Mock<IDialogueController> CreateDialogueControllerMock()
+        private Mock<INarrativeScript> CreateMockNarrativeScript()
         {
-            var objectStorageMock = new Mock<IObjectStorage>();
-            var dialogueControllerMock = new Mock<IDialogueController>();
-            
-            objectStorageMock.Setup(mock => mock.GetObject<AudioClip>("ABoyAndHisTrial")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}ABoyAndHisTrial"));
-            objectStorageMock.Setup(mock => mock.GetObject<AudioClip>("AKissFromARose")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}AKissFromARose"));
-            objectStorageMock.Setup(mock => mock.GetObject<AudioClip>("InvestigationJoonyer")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}InvestigationJoonyer"));
-            
-            TestTools.SetField("_objectStorage", dialogueControllerMock.Object, objectStorageMock.Object);
-            
-            dialogueControllerMock.Setup(mock => mock.ActiveNarrativeScript.ObjectStorage.GetObject<AudioClip>("ABoyAndHisTrial")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}ABoyAndHisTrial"));
-            dialogueControllerMock.Setup(mock => mock.ActiveNarrativeScript.ObjectStorage.GetObject<AudioClip>("AKissFromARose")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}AKissFromARose"));
-            dialogueControllerMock.Setup(mock => mock.ActiveNarrativeScript.ObjectStorage.GetObject<AudioClip>("InvestigationJoonyer")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}InvestigationJoonyer"));
-            return dialogueControllerMock;
+            var narrativeScriptMock = new Mock<INarrativeScript>();
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("ABoyAndHisTrial")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}ABoyAndHisTrial"));
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("AKissFromARose")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}AKissFromARose"));
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("InvestigationJoonyer")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}InvestigationJoonyer"));
+            return narrativeScriptMock;
         }
     }
 }

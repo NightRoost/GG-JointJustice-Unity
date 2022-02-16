@@ -1,7 +1,7 @@
 public interface IDialogueController
 {
     GameMode GameMode { set; }
-    NarrativeScript ActiveNarrativeScript { get; }
+    INarrativeScript ActiveNarrativeScript { get; }
     
     void StartSubStory(NarrativeScript narrativeScript);
 }

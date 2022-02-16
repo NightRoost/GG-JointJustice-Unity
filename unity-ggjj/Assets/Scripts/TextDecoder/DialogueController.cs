@@ -67,9 +67,9 @@ public class DialogueController : MonoBehaviour, IDialogueController
     private bool _isSubStory;
     private DialogueController _subStory; //TODO: Substory needs to remember state to come back to (probably?)
     private bool _isAtChoice; //Possibly small state machine to handle all input?
-    private NarrativeScript _activeNarrativeScript;
+    private INarrativeScript _activeNarrativeScript;
     
-    public NarrativeScript ActiveNarrativeScript
+    public INarrativeScript ActiveNarrativeScript
     {
         get => _subStory == null ? _activeNarrativeScript : _subStory.ActiveNarrativeScript;
         private set => _activeNarrativeScript = value;
