@@ -5,14 +5,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioModule))]
 public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueController
 {
     [Tooltip("Drag a DirectorActionDecoder component here.")]
     [SerializeField] private DirectorActionDecoder _directorActionDecoder;
 
-    [Tooltip("Drag an AudioController here.")]
-    [SerializeField] private AudioController _audioController;
-    
     [Tooltip("Drag a NameBox component here.")]
     [SerializeField] private NameBox _namebox;
     
@@ -40,10 +38,10 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
     [field:Header("Events")]
     [field:SerializeField] public UnityEvent OnLineEnd { get; private set; }
     [SerializeField] private UnityEvent _onAutoSkip;
-    [SerializeField] private UnityEvent _onLetterAppear;
 
     private TMP_TextInfo _textInfo;
     private Coroutine _printCoroutine;
+    private AudioModule _audioModule;
 
     public float SpeedMultiplier { get; set; } = 1;
     public bool SkippingDisabled { get; set; }
@@ -59,9 +57,14 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
         set => _speechPanel.gameObject.SetActive(!value);
     }
 
-    private void Start()
+    private void Awake()
     {
         _textInfo = _textBox.textInfo;
+        _audioModule = GetComponent<AudioModule>();
+    }
+
+    private void Start()
+    {
         _directorActionDecoder.Decoder.AppearingDialogueController = this;
     }
 
@@ -118,7 +121,6 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
         for (int i = startingIndex; i < _textInfo.characterCount; i++)
         {
             _textBox.maxVisibleCharacters++;
-            _onLetterAppear.Invoke();
             var currentCharacterInfo = _textInfo.characterInfo[_textBox.maxVisibleCharacters - 1];
             PlayDialogueChirp(_namebox.CurrentActorDialogueChirp, currentCharacterInfo);
             yield return new WaitForSeconds(GetDelay(currentCharacterInfo));
@@ -150,7 +152,7 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
         {
             resultChirp = _defaultDialogueChirpSfx;
         }
-        _audioController.PlaySfx(resultChirp);
+        _audioModule.PlayWithoutInterrupting(resultChirp);
     }
 
     /// <summary>
