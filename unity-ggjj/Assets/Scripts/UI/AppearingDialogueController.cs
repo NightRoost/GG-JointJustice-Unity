@@ -58,12 +58,12 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
 
     private void Awake()
     {
-        _textInfo = _textBox.textInfo;
         _audioModule = GetComponent<AudioModule>();
     }
 
     private void Start()
     {
+        _textInfo = _textBox.textInfo;
         _directorActionDecoder.Decoder.AppearingDialogueController = this;
     }
 
