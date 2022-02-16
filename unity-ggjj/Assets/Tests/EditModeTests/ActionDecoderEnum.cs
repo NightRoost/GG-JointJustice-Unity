@@ -16,7 +16,7 @@ public class ActionDecoderEnumTests
         {
             ActorController = new Moq.Mock<IActorController>().Object,
             AppearingDialogueController = new Moq.Mock<IAppearingDialogueController>().Object,
-            AudioController = new Moq.Mock<IAudioController>().Object,
+            MusicPlayer = new Moq.Mock<IMusicPlayer>().Object,
             EvidenceController = new Moq.Mock<IEvidenceController>().Object,
             SceneController = new Moq.Mock<ISceneController>().Object,
         };

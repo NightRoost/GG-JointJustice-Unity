@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioModule))]
-public class MusicPlayer : MonoBehaviour, IAudioController
+public class MusicPlayer : MonoBehaviour, IMusicPlayer
 {
     [Tooltip("Drag a DialogueController here")]
     [SerializeField] private DialogueController _dialogueController;
@@ -31,7 +31,7 @@ public class MusicPlayer : MonoBehaviour, IAudioController
     /// </summary>
     void Start()
     {
-        _directorActionDecoder.Decoder.AudioController = this;
+        _directorActionDecoder.Decoder.MusicPlayer = this;
     }
 
     /// <summary>

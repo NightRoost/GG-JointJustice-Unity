@@ -11,7 +11,8 @@ public class ActionDecoder
     public event Action OnActionDone;
     public IActorController ActorController { get; set; }
     public ISceneController SceneController { get; set; }
-    public IAudioController AudioController { get; set; }
+    public IMusicPlayer MusicPlayer { get; set; }
+    public ISfxPlayer SfxPlayer { get; set; }
     public IEvidenceController EvidenceController { get; set; }
     public IAppearingDialogueController AppearingDialogueController { get; set; }
     public IDialogueController DialogueController { get; set; }
@@ -294,7 +295,7 @@ public class ActionDecoder
     /// <category>Audio</category>
     private void PLAY_SFX(SfxAssetName sfx)
     {
-        // AudioController.PlaySfx(sfx); // TODO FIX
+        SfxPlayer.PlaySfx(sfx); // TODO FIX
         OnActionDone?.Invoke();
     }
 
@@ -304,7 +305,7 @@ public class ActionDecoder
     /// <category>Audio</category>
     private void PLAY_SONG(SongAssetName songName)
     {
-        AudioController.PlaySong(songName);
+        MusicPlayer.PlaySong(songName);
         OnActionDone?.Invoke();
     }
 
@@ -313,7 +314,7 @@ public class ActionDecoder
     /// <category>Audio</category>
     private void STOP_SONG()
     {
-        AudioController.StopSong();
+        MusicPlayer.StopSong();
         OnActionDone?.Invoke();
     }
     #endregion
