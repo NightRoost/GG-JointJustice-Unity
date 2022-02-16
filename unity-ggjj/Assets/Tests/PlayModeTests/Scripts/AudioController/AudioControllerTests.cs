@@ -57,8 +57,8 @@ namespace Tests.PlayModeTests.Scripts
             yield return new WaitForSeconds(transitionDuration / 10f);
             
             // expect old song to still be playing, but no longer at full volume, as we're transitioning
-            // Assert.AreNotEqual(audioSource.volume, settingsMusicVolume);
-            // Assert.AreEqual(firstSong.name, audioSource.clip.name);
+            Assert.AreNotEqual(_audioModule.Volume, TestTools.GetField<float>("_maxVolume", _audioModule));
+            Assert.AreEqual(FIRST_SONG, _audioSource.clip.name);
             
             yield return new WaitForSeconds(transitionDuration);
             
