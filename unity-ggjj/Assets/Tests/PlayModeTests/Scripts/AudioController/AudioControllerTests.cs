@@ -21,7 +21,6 @@ namespace Tests.PlayModeTests.Scripts
         private MusicPlayer _musicPlayer;
         private AudioModule _audioModule;
         private AudioSource _audioSource;
-        private global::DialogueController _dialogueController;
 
         [UnitySetUp]
         private IEnumerator Setup()
@@ -63,25 +62,25 @@ namespace Tests.PlayModeTests.Scripts
             yield return new WaitForSeconds(transitionDuration);
             
             // expect new song to be playing at full volume, as we're done transitioning
-            // Assert.AreEqual(audioSource.volume, settingsMusicVolume);
-            // Assert.AreEqual(secondSong.name, audioSource.clip.name);
+            Assert.AreEqual(_audioModule.Volume, TestTools.GetField<float>("_maxVolume", _audioModule));
+            Assert.AreEqual(SECOND_SONG, _audioSource.clip.name);
             
             // transition into new song
             _musicPlayer.PlaySong(THIRD_SONG);
             yield return new WaitForSeconds(transitionDuration / 10f);
             
             // expect old song to still be playing, but no longer at full volume, as we're transitioning
-            // Assert.AreNotEqual(audioSource.volume, settingsMusicVolume);
-            // Assert.AreEqual(secondSong.name, audioSource.clip.name);
+            Assert.AreNotEqual(_audioModule.Volume, TestTools.GetField<float>("_maxVolume", _audioModule));
+            Assert.AreEqual(SECOND_SONG, _audioSource.clip.name);
             
             yield return new WaitForSeconds(transitionDuration);
             
             // expect new song to be playing at full volume, as we're done transitioning
-            // Assert.AreEqual(audioSource.volume, settingsMusicVolume);
-            // Assert.AreEqual(thirdSong.name, audioSource.clip.name);
+            Assert.AreEqual(_audioModule.Volume, TestTools.GetField<float>("_maxVolume", _audioModule));
+            Assert.AreEqual(THIRD_SONG, _audioSource.clip.name);
         }
 
-        private Mock<INarrativeScript> CreateMockNarrativeScript()
+        private static Mock<INarrativeScript> CreateMockNarrativeScript()
         {
             var narrativeScriptMock = new Mock<INarrativeScript>();
             narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>(FIRST_SONG)).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}{FIRST_SONG}"));
