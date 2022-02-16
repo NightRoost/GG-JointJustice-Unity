@@ -15,6 +15,7 @@ public class MusicPlayer : MonoBehaviour, IAudioController
     [SerializeField] private float _transitionDuration = 2f;
     
     private AudioModule _audioModule;
+    private MusicFader _musicFader;
 
     private bool IsCurrentlyPlayingMusic => _audioModule.IsPlaying && _audioModule.Volume != 0;
     
@@ -22,6 +23,7 @@ public class MusicPlayer : MonoBehaviour, IAudioController
     {
         _audioModule = GetComponent<AudioModule>();
         _audioModule.ShouldLoop = true;
+        _musicFader = new MusicFader(_audioModule);
     }
     
     /// <summary>
@@ -48,14 +50,13 @@ public class MusicPlayer : MonoBehaviour, IAudioController
     /// <param name="song">The song to fade to</param>
     public IEnumerator FadeToNewSong(AudioClip song)
     {
-        var musicFader = new MusicFader(_audioModule);
         if (IsCurrentlyPlayingMusic)
         {
-            yield return musicFader.FadeOut(_transitionDuration / 2f);
+            yield return _musicFader.FadeOut(_transitionDuration / 2f);
         }
 
         SetCurrentTrack(song);
-        yield return musicFader.FadeIn(_transitionDuration / 2f);
+        yield return _musicFader.FadeIn(_transitionDuration / 2f);
     }
 
     /// <summary>

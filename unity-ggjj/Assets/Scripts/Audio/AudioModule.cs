@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioModule : MonoBehaviour
 {
+    [SerializeField]
+    [Range(0, 1)]
+    private float _maxVolume = 1;
+    
     private AudioSource _audioSource;
 
     public bool IsPlaying => _audioSource.isPlaying;
@@ -14,12 +19,27 @@ public class AudioModule : MonoBehaviour
     public float Volume
     {
         get => _audioSource.volume;
-        set => _audioSource.volume = value;
+        set
+        {
+            // Debug.Log(value  + " " + _maxVolume + " " + value * _maxVolume);
+            _audioSource.volume = value * _maxVolume;
+        }
     }
+    public float MaxVolume => _maxVolume;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnValidate()
+    {
+        if (_audioSource == null)
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+        
+        _audioSource.volume = _maxVolume;
     }
 
     public void Play(AudioClip audioClip)

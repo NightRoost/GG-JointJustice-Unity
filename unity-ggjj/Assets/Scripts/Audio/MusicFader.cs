@@ -4,6 +4,17 @@ public class MusicFader
 {
     private readonly AudioModule _audioModule;
 
+    private float _normalizedVolume;
+    private float NormalizedVolume
+    {
+        get => _normalizedVolume;
+        set
+        {
+            _normalizedVolume = value;
+            _audioModule.Volume = value;
+        }
+    }
+
     public MusicFader(AudioModule audioModule)
     {
         _audioModule = audioModule;
@@ -19,18 +30,18 @@ public class MusicFader
         {
             if (seconds <= 0)
             {
-                _audioModule.Volume = 1f;
+                NormalizedVolume = 1f;
                 return true;
             }
+            
+            NormalizedVolume += Time.deltaTime / seconds;
 
-            _audioModule.Volume += Time.deltaTime / seconds;
-
-            if (!(_audioModule.Volume >= 1f))
+            if (!(NormalizedVolume >= 1f))
             {
                 return false;
             }
             
-            _audioModule.Volume = 1f;
+            NormalizedVolume = 1f;
             return true;
         });
     }
@@ -45,18 +56,18 @@ public class MusicFader
         {
             if (seconds <= 0)
             {
-                _audioModule.Volume = 0f;
+                NormalizedVolume = 0f;
                 return true;
             }
 
-            _audioModule.Volume -= Time.deltaTime / seconds;
-
-            if (!(_audioModule.Volume <= 0))
+            NormalizedVolume -= Time.deltaTime / seconds;
+            
+            if (!(NormalizedVolume <= 0))
             {
                 return false;
             }
             
-            _audioModule.Volume = 0;
+            NormalizedVolume = 0;
             return true;
         });
     }

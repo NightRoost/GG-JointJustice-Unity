@@ -478,8 +478,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dialogueController: {fileID: 0}
   _directorActionDecoder: {fileID: 0}
-  _settingsMusicVolume: 0.5
-  _settingsSfxVolume: 0.5
   _transitionDuration: 2
 --- !u!114 &3640786123189446461
 MonoBehaviour:
@@ -493,6 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2666bc38e004b32b66f017065166f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _volume: 0.563
 --- !u!82 &8776243238505108718
 AudioSource:
   m_ObjectHideFlags: 0
@@ -505,7 +504,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.563
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1534,7 +1533,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1630,6 +1629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2666bc38e004b32b66f017065166f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _volume: 0
 --- !u!1 &5228303784977925676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d86872a14ec4712a8799e1c35037ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _narrativeScriptAudioPlayer: {fileID: 0}
+  _musicPlayer: {fileID: 0}
   _speechPanel: {fileID: 3358063401309930583}
   _duration: 0.5
   _frequency: 10
