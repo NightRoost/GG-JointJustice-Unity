@@ -19,13 +19,8 @@ public class AudioModule : MonoBehaviour
     public float Volume
     {
         get => _audioSource.volume;
-        set
-        {
-            // Debug.Log(value  + " " + _maxVolume + " " + value * _maxVolume);
-            _audioSource.volume = value * _maxVolume;
-        }
+        set => _audioSource.volume = value * _maxVolume;
     }
-    public float MaxVolume => _maxVolume;
 
     private void Awake()
     {
