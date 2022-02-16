@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
-using System.Reflection;
 using Moq;
 using NUnit.Framework;
 using Tests.PlayModeTests.Tools;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests.PlayModeTests.Scripts.AudioController
+namespace Tests.PlayModeTests.Scripts
 {
     // NOTE: As there's no audio hardware present when running headless (i.e. inside automated build processes),
     //       things like ".isPlaying" or ".time"  of AudioSources cannot be asserted, as they will remain
@@ -16,59 +14,69 @@ namespace Tests.PlayModeTests.Scripts.AudioController
     public class AudioControllerTests
     {
         private const string MUSIC_PATH = "Audio/Music/";
-        
-        [UnityTest]
-        public IEnumerator AudioController_PlaySong_FadesBetweenSongs()
+        private const string FIRST_SONG = "ABoyAndHisTrial";
+        private const string SECOND_SONG = "AKissFromARose";
+        private const string THIRD_SONG = "InvestigationJoonyer";
+
+        private MusicPlayer _musicPlayer;
+        private AudioModule _audioModule;
+        private AudioSource _audioSource;
+        private global::DialogueController _dialogueController;
+
+        [UnitySetUp]
+        private IEnumerator Setup()
         {
             GameObject audioControllerGameObject = new GameObject("AudioController");
             audioControllerGameObject.AddComponent<AudioListener>(); // required to prevent excessive warnings
-            var musicPlayer = audioControllerGameObject.AddComponent<MusicPlayer>();
-            var audioModule = audioControllerGameObject.GetComponent<AudioModule>();
+            _musicPlayer = audioControllerGameObject.AddComponent<MusicPlayer>();
+            _audioModule = audioControllerGameObject.GetComponent<AudioModule>();
+            _audioSource = audioControllerGameObject.GetComponent<AudioSource>();
             var dialogueController = audioControllerGameObject.AddComponent<global::DialogueController>();
-            TestTools.SetField("_dialogueController", musicPlayer, dialogueController);
+            TestTools.SetField("_dialogueController", _musicPlayer, dialogueController);
             TestTools.SetField("_activeNarrativeScript", dialogueController, CreateMockNarrativeScript().Object);
             
             // expect error due to missing DirectorActionDecoder
             LogAssert.Expect(LogType.Exception, "NullReferenceException: Object reference not set to an instance of an object");
             LogAssert.Expect(LogType.Exception, "NullReferenceException: Object reference not set to an instance of an object");
             yield return null;
+        }
 
-            var transitionDuration = TestTools.GetField<float>("_transitionDuration", musicPlayer);
+        [UnityTest]
+        public IEnumerator AudioControllerPlaySongFadesBetweenSongs()
+        {
+            var transitionDuration = TestTools.GetField<float>("_transitionDuration", _musicPlayer);
 
             // setup and verify steady state of music playing for a while
-            musicPlayer.PlaySong("ABoyAndHisTrial");
+            _musicPlayer.PlaySong(FIRST_SONG);
             yield return new WaitForSeconds(transitionDuration);
-            yield return new WaitForSeconds(50);
-            // Assert.AreEqual(audioSource.volume, settingsMusicVolume);
-            // Assert.AreEqual(firstSong.name, audioSource.clip.name);
-            //
-            // // transition into new song
-            // var secondSong = Resources.Load<AudioClip>($"{MUSIC_PATH}aKissFromARose");
-            // audioModule.Play(secondSong); // TODO FIX
-            // yield return new WaitForSeconds(transitionDuration/10f);
-            //
-            // // expect old song to still be playing, but no longer at full volume, as we're transitioning
+            
+            Assert.AreEqual(FIRST_SONG, _audioSource.clip.name);
+            
+            // transition into new song
+            _musicPlayer.PlaySong(SECOND_SONG);
+            yield return new WaitForSeconds(transitionDuration / 10f);
+            
+            // expect old song to still be playing, but no longer at full volume, as we're transitioning
             // Assert.AreNotEqual(audioSource.volume, settingsMusicVolume);
             // Assert.AreEqual(firstSong.name, audioSource.clip.name);
-            //
-            // yield return new WaitForSeconds(transitionDuration);
-            //
-            // // expect new song to be playing at full volume, as we're done transitioning
+            
+            yield return new WaitForSeconds(transitionDuration);
+            
+            // expect new song to be playing at full volume, as we're done transitioning
             // Assert.AreEqual(audioSource.volume, settingsMusicVolume);
             // Assert.AreEqual(secondSong.name, audioSource.clip.name);
-            //
-            // // transition into new song
-            // var thirdSong = Resources.Load<AudioClip>($"{MUSIC_PATH}investigationJoonyer");
-            // audioModule.Play(thirdSong); // TODO FIX
-            // yield return new WaitForSeconds(transitionDuration/10f);
-            //
-            // // expect old song to still be playing, but no longer at full volume, as we're transitioning
+            
+            // transition into new song
+            _musicPlayer.PlaySong(THIRD_SONG);
+            yield return new WaitForSeconds(transitionDuration / 10f);
+            
+            // expect old song to still be playing, but no longer at full volume, as we're transitioning
             // Assert.AreNotEqual(audioSource.volume, settingsMusicVolume);
             // Assert.AreEqual(secondSong.name, audioSource.clip.name);
-            //
-            // yield return new WaitForSeconds(transitionDuration);
-            //
-            // // expect new song to be playing at full volume, as we're done transitioning
+            
+            yield return new WaitForSeconds(transitionDuration);
+            
+            // expect new song to be playing at full volume, as we're done transitioning
             // Assert.AreEqual(audioSource.volume, settingsMusicVolume);
             // Assert.AreEqual(thirdSong.name, audioSource.clip.name);
         }
@@ -76,9 +84,9 @@ namespace Tests.PlayModeTests.Scripts.AudioController
         private Mock<INarrativeScript> CreateMockNarrativeScript()
         {
             var narrativeScriptMock = new Mock<INarrativeScript>();
-            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("ABoyAndHisTrial")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}ABoyAndHisTrial"));
-            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("AKissFromARose")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}AKissFromARose"));
-            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>("InvestigationJoonyer")).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}InvestigationJoonyer"));
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>(FIRST_SONG)).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}{FIRST_SONG}"));
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>(SECOND_SONG)).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}{SECOND_SONG}"));
+            narrativeScriptMock.Setup(mock => mock.ObjectStorage.GetObject<AudioClip>(THIRD_SONG)).Returns(Resources.Load<AudioClip>($"{MUSIC_PATH}{THIRD_SONG}"));
             return narrativeScriptMock;
         }
     }
