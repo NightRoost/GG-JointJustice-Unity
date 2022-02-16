@@ -4,11 +4,6 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(ObjectShaker))]
 public class ShoutPlayer : MonoBehaviour
 {
-    [FormerlySerializedAs("_narrativeScriptAudioPlayer")]
-    [FormerlySerializedAs("_audioController")]
-    [Tooltip("Drag the AudioController here.")]
-    [SerializeField] private MusicPlayer _musicPlayer;
-
     [Tooltip("Drag the SpeechPanel game object here.")]
     [SerializeField] private GameObject _speechPanel;
 
@@ -26,6 +21,7 @@ public class ShoutPlayer : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private ObjectShaker _objectShaker;
+    private AudioModule _audioModule;
 
     /// <summary>
     /// Get the required components on awake.
@@ -34,6 +30,7 @@ public class ShoutPlayer : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _objectShaker = GetComponent<ObjectShaker>();
+        _audioModule = GetComponent<AudioModule>();
     }
 
     /// <summary>
@@ -50,7 +47,7 @@ public class ShoutPlayer : MonoBehaviour
         _spriteRenderer.enabled = true;
         _spriteRenderer.sprite = shout.Sprite;
         _objectShaker.Shake(_frequency, _amplitude, _duration, true);
-        // _narrativeScriptAudioPlayer.PlaySfx(shout.AudioClip); // TODO fix
+        _audioModule.PlayOneShot(shout.AudioClip);
         _speechPanel.SetActive(false);
     }
 }
