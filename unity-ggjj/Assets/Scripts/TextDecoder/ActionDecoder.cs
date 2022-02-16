@@ -295,7 +295,7 @@ public class ActionDecoder
     /// <category>Audio</category>
     private void PLAY_SFX(SfxAssetName sfx)
     {
-        SfxPlayer.PlaySfx(sfx); // TODO FIX
+        SfxPlayer.PlaySfx(sfx);
         OnActionDone?.Invoke();
     }
 

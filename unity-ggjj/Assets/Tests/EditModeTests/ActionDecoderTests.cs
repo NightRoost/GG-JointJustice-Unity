@@ -125,6 +125,7 @@ public class ActionDecoderTests
             AppearingDialogueController = new Moq.Mock<IAppearingDialogueController>().Object,
             DialogueController = dialogueController.Object,
             MusicPlayer = new Moq.Mock<IMusicPlayer>().Object,
+            SfxPlayer = new Moq.Mock<ISfxPlayer>().Object,
             EvidenceController = new Moq.Mock<IEvidenceController>().Object,
             SceneController = new Moq.Mock<ISceneController>().Object,
             PenaltyManager = new Moq.Mock<IPenaltyManager>().Object
