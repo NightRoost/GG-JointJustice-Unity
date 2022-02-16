@@ -19,10 +19,11 @@ namespace Tests.PlayModeTests.Scripts.AudioController
         {
             GameObject audioControllerGameObject = new GameObject("AudioController");
             audioControllerGameObject.AddComponent<AudioListener>(); // required to prevent excessive warnings
-            global::MusicPlayer musicPlayer = audioControllerGameObject.AddComponent<global::MusicPlayer>();
+            var musicPlayer = audioControllerGameObject.AddComponent<MusicPlayer>();
+            var audioModule = musicPlayer.GetComponent<AudioModule>();
 
             // expect error due to missing DirectorActionDecoder
-            LogAssert.Expect(LogType.Error, "Audio Controller doesn't have an action decoder to attach to");
+            LogAssert.Expect(LogType.Exception, "NullReferenceException: Object reference not set to an instance of an object");
             yield return null;
             AudioSource audioSource = audioControllerGameObject.transform.Find("Music Player").GetComponent<AudioSource>();
 
@@ -42,7 +43,7 @@ namespace Tests.PlayModeTests.Scripts.AudioController
 
             // setup and verify steady state of music playing for a while
             var firstSong = Resources.Load<AudioClip>($"{MUSIC_PATH}aBoyAndHisTrial");
-            // musicPlayer.PlaySong(firstSong); // TODO FIX
+            audioModule.Play(firstSong); // TODO FIX
             yield return new WaitForSeconds(transitionDuration);
 
             Assert.AreEqual(audioSource.volume, settingsMusicVolume);
@@ -50,7 +51,7 @@ namespace Tests.PlayModeTests.Scripts.AudioController
 
             // transition into new song
             var secondSong = Resources.Load<AudioClip>($"{MUSIC_PATH}aKissFromARose");
-            // musicPlayer.PlaySong(secondSong); // TODO FIX
+            audioModule.Play(secondSong); // TODO FIX
             yield return new WaitForSeconds(transitionDuration/10f);
 
             // expect old song to still be playing, but no longer at full volume, as we're transitioning
@@ -65,7 +66,7 @@ namespace Tests.PlayModeTests.Scripts.AudioController
 
             // transition into new song
             var thirdSong = Resources.Load<AudioClip>($"{MUSIC_PATH}investigationJoonyer");
-            // musicPlayer.PlaySong(thirdSong); // TODO FIX
+            audioModule.Play(thirdSong); // TODO FIX
             yield return new WaitForSeconds(transitionDuration/10f);
 
             // expect old song to still be playing, but no longer at full volume, as we're transitioning

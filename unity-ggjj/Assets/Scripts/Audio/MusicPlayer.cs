@@ -43,16 +43,6 @@ public class MusicPlayer : MonoBehaviour, IAudioController
     }
 
     /// <summary>
-    /// Plays sound effect of desired name.
-    /// </summary>
-    /// <param name="soundEffectName">Name of sound effect asset, must be in `Resources/Audio/SFX`</param>
-    public void PlaySfx(string soundEffectName)
-    {
-        var soundEffectClip = _dialogueController.ActiveNarrativeScript.ObjectStorage.GetObject<AudioClip>(soundEffectName);
-        _audioModule.PlayOneShot(soundEffectClip);
-    }
-
-    /// <summary>
     /// Coroutine to fade to a new song.
     /// </summary>
     /// <param name="song">The song to fade to</param>
