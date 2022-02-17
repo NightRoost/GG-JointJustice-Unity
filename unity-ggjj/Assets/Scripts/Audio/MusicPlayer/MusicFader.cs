@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MusicFader
 {
-    private readonly AudioModule _audioModule;
+    private readonly AudioSource _audioSource;
 
     private float _normalizedVolume;
     private float NormalizedVolume
@@ -11,13 +11,13 @@ public class MusicFader
         set
         {
             _normalizedVolume = value;
-            _audioModule.Volume = value;
+            _audioSource.volume = value;
         }
     }
 
-    public MusicFader(AudioModule audioModule)
+    public MusicFader(AudioSource audioModule)
     {
-        _audioModule = audioModule;
+        _audioSource = audioModule;
     }
     
     /// <summary>

@@ -21,7 +21,7 @@ public class ShoutPlayer : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private ObjectShaker _objectShaker;
-    private AudioModule _audioModule;
+    private AudioSource _audioSource;
 
     /// <summary>
     /// Get the required components on awake.
@@ -30,7 +30,7 @@ public class ShoutPlayer : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _objectShaker = GetComponent<ObjectShaker>();
-        _audioModule = GetComponent<AudioModule>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class ShoutPlayer : MonoBehaviour
         _spriteRenderer.enabled = true;
         _spriteRenderer.sprite = shout.Sprite;
         _objectShaker.Shake(_frequency, _amplitude, _duration, true);
-        _audioModule.PlayOneShot(shout.AudioClip);
+        _audioSource.PlayOneShot(shout.AudioClip);
         _speechPanel.SetActive(false);
     }
 }

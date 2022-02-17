@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface ISfxPlayer
 {
-    void PlaySfx(string audioClipName);
+    void PlaySfx(AudioClip audioClip);
 }

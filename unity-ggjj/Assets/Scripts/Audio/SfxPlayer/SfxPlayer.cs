@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioModule))]
+[RequireComponent(typeof(AudioSource))]
 public class SfxPlayer : MonoBehaviour, ISfxPlayer
 {
     [SerializeField]
@@ -9,17 +9,16 @@ public class SfxPlayer : MonoBehaviour, ISfxPlayer
     [SerializeField]
     private DialogueController _dialogueController;
     
-    private AudioModule _audioModule;
+    private AudioSource _AudioSource;
     
     private void Awake()
     {
         _directorActionDecoder.Decoder.SfxPlayer = this;
-        _audioModule = GetComponent<AudioModule>();
+        _AudioSource = GetComponent<AudioSource>();
     }
     
-    public void PlaySfx(string audioClipName)
+    public void PlaySfx(AudioClip audioClip)
     {
-        var audioClip = _dialogueController.ActiveNarrativeScript.ObjectStorage.GetObject<AudioClip>(audioClipName);
-        _audioModule.PlayOneShot(audioClip);
+        _AudioSource.PlayOneShot(audioClip);
     }
 }

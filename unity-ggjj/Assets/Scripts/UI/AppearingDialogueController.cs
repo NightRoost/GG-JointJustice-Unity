@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(AudioModule))]
+[RequireComponent(typeof(AudioSource))]
 public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueController
 {
     [Tooltip("Drag a DirectorActionDecoder component here.")]
@@ -46,7 +46,7 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
 
     private TMP_TextInfo _textInfo;
     private Coroutine _printCoroutine;
-    private AudioModule _audioModule;
+    private AudioSource _audioSource;
     private int _chirpIndex;
 
     public float SpeedMultiplier { get; set; } = 1;
@@ -64,7 +64,7 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
 
     private void Awake()
     {
-        _audioModule = GetComponent<AudioModule>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -164,7 +164,7 @@ public class AppearingDialogueController : MonoBehaviour, IAppearingDialogueCont
         
         if (_chirpIndex % _chirpEveryNthLetter == 0)
         {
-            _audioModule.PlayOneShot(resultChirp);
+            _audioSource.PlayOneShot(resultChirp);
         }
         
         _chirpIndex++;

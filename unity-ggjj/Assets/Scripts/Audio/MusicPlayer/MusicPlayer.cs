@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioModule))]
+[RequireComponent(typeof(AudioSource))]
 public class MusicPlayer : MonoBehaviour, IMusicPlayer
 {
     [Tooltip("Drag a DialogueController here")]
@@ -14,16 +14,16 @@ public class MusicPlayer : MonoBehaviour, IMusicPlayer
     [Range(0f, 4f)]
     [SerializeField] private float _transitionDuration = 2f;
     
-    private AudioModule _audioModule;
+    private AudioSource _audioSource;
     private MusicFader _musicFader;
 
-    private bool IsCurrentlyPlayingMusic => _audioModule.IsPlaying && _audioModule.Volume != 0;
+    private bool IsCurrentlyPlayingMusic => _audioSource.isPlaying && _audioSource.volume != 0;
     
     private void Awake()
     {
-        _audioModule = GetComponent<AudioModule>();
-        _audioModule.ShouldLoop = true;
-        _musicFader = new MusicFader(_audioModule);
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.loop = true;
+        _musicFader = new MusicFader(_audioSource);
     }
     
     /// <summary>
@@ -64,7 +64,7 @@ public class MusicPlayer : MonoBehaviour, IMusicPlayer
     /// </summary>
     public void StopSong()
     {
-        _audioModule.Stop();
+        _audioSource.Stop();
     }
 
     /// <summary>
@@ -73,7 +73,8 @@ public class MusicPlayer : MonoBehaviour, IMusicPlayer
     /// <param name="song">The song to fade to</param>
     private void SetCurrentTrack(AudioClip song)
     {
-        _audioModule.Volume = 0f;
-        _audioModule.Play(song);
+        _audioSource.volume = 0f;
+        _audioSource.clip = song;
+        _audioSource.Play();
     }
 }
