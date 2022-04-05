@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using UnityEditor.MemoryProfiler;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace TextDecoding
 {
@@ -20,6 +21,7 @@ namespace TextDecoding
                 const char actionSideSeparator = ':';
                 const char actionParameterSeparator = ',';
 
+                action = action.Replace(ACTION_TOKEN.ToString(), "");
                 var actionNameAndParameters = action.Split(ACTION_TOKEN, actionSideSeparator, actionParameterSeparator);
                 ActionName = actionNameAndParameters[0];
                 Parameters = actionNameAndParameters.Where(item => item != actionNameAndParameters[0]).ToArray();
@@ -39,7 +41,8 @@ namespace TextDecoding
             var actionLine = new ActionLine(action);
             var fieldInfo = GetField(actionLine.ActionName);
             var parameterTypes = GetParameterTypes(fieldInfo);
-            var parameters = GetParameters(actionLine.Parameters, parameterTypes);
+            var parameters = GetParameters(actionLine, parameterTypes);
+            InvokeEvent(fieldInfo, parameters);
         }
 
         private FieldInfo GetField(string fieldName)
@@ -52,20 +55,36 @@ namespace TextDecoding
             return fieldInfo;
         }
 
-        private IEnumerable<Type> GetParameterTypes(FieldInfo fieldInfo)
+        private Type[] GetParameterTypes(FieldInfo fieldInfo)
         {
             return fieldInfo.GetValue(_actionDecoderComponent).GetType().GetGenericArguments();
         }
 
-        private IEnumerable<object> GetParameters(IEnumerable<string> parameters, IEnumerable<Type> parameterTypes)
+        private static object[] GetParameters(ActionLine actionLine, Type[] parameterTypes)
         {
-            return parameters.Zip(parameterTypes, ParseParameter).ToArray();
+            if (actionLine.Parameters.Length != parameterTypes.Length)
+            {
+                throw new ArgumentException($"Invalid number of arguments for action {actionLine.ActionName}. Expected {parameterTypes.Length}, got {actionLine.Parameters.Length}");
+            }
+            
+            return actionLine.Parameters.Zip(parameterTypes, ParseParameter).ToArray();
         }
 
         private static object ParseParameter(string parameter, Type parameterType)
         {
             var converter = TypeDescriptor.GetConverter(parameterType);
             return converter.ConvertFrom(parameter);
+        }
+        
+        private void InvokeEvent(FieldInfo fieldInfo, object[] parameters)
+        {
+            var actionEvent = fieldInfo.GetValue(_actionDecoderComponent);
+            var invokeMethodInfo = actionEvent.GetType().GetMethod("Invoke");
+            if (invokeMethodInfo == null)
+            {
+                throw new Exception("Failed to get invoke method on event");
+            }
+            invokeMethodInfo.Invoke(actionEvent, parameters);
         }
     }
 }
