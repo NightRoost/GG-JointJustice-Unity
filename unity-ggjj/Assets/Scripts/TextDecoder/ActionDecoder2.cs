@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -7,19 +8,20 @@ namespace TextDecoding
 {
     public class ActionDecoder2
     {
-        public const char ACTION_TOKEN = '&';
-        
-        private readonly ActionDecoder2Component _actionDecoderComponent;
+        private static readonly Dictionary<string, (ActionDecoder2Component, FieldInfo)> _actionEvents = new Dictionary<string, (ActionDecoder2Component, FieldInfo)>();
 
-        private struct ActionLine
+        private readonly ActionDecoder2Component _actionDecoderComponent;
+        private readonly char _actionToken;
+
+        private readonly struct ActionLine
         {
-            public ActionLine(string action)
+            public ActionLine(string action, char actionToken)
             {
                 const char actionSideSeparator = ':';
                 const char actionParameterSeparator = ',';
 
-                action = action.Replace(ACTION_TOKEN.ToString(), "");
-                var actionNameAndParameters = action.Split(ACTION_TOKEN, actionSideSeparator, actionParameterSeparator);
+                action = action.Replace(actionToken.ToString(), "");
+                var actionNameAndParameters = action.Split(actionToken, actionSideSeparator, actionParameterSeparator);
                 ActionName = actionNameAndParameters[0];
                 Parameters = actionNameAndParameters.Where(item => item != actionNameAndParameters[0]).ToArray();
             }
@@ -28,14 +30,15 @@ namespace TextDecoding
             public string[] Parameters { get; }
         }
 
-        public ActionDecoder2(ActionDecoder2Component actionDecoderComponent)
+        public ActionDecoder2(ActionDecoder2Component actionDecoderComponent, char actionToken)
         {
             _actionDecoderComponent = actionDecoderComponent;
+            _actionToken = actionToken;
         }
 
         public void Decode(string action)
         {
-            var actionLine = new ActionLine(action);
+            var actionLine = new ActionLine(action, _actionToken);
             var fieldInfo = GetField(actionLine.ActionName);
             var parameterTypes = GetParameterTypes(fieldInfo);
             var parameters = GetParameters(actionLine, parameterTypes);

@@ -1143,6 +1143,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 5228303783585365848}
+    - target: {fileID: 6030709744272325551, guid: f4cda231489f65341910a0acac208946, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6030709744272325553, guid: f4cda231489f65341910a0acac208946, type: 3}
       propertyPath: m_Name
       value: BaseCanvas
@@ -1826,6 +1830,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1056622114}
   - component: {fileID: 1056622115}
+  - component: {fileID: 1056622116}
+  - component: {fileID: 1056622117}
   m_Layer: 0
   m_Name: ActionDecoder
   m_TagString: Untagged
@@ -1860,6 +1866,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _narrativeGameState: {fileID: 7963640705624872190}
+--- !u!114 &1056622116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056622113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6251853fac3840ff93e5777f7f9235c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionToken: 0
+  test:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1056622117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056622113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ab64632ca04b529aee19344ba352e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionToken: 0
+  test:
+    m_PersistentCalls:
+      m_Calls: []
+  test2:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1082074317
 GameObject:
   m_ObjectHideFlags: 0
