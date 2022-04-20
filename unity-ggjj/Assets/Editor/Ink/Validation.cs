@@ -57,7 +57,7 @@ namespace Editor.Ink
             
             var lines = new List<string>();
             var story = new Story(inkFile.jsonAsset.text);
-            NarrativeScript.ReadContent(story.mainContentContainer.content, lines, story);
+            //NarrativeScript.ReadContent(story.mainContentContainer.content, lines, story);
 
             foreach (var line in lines.Where(t => t[0] == ActionDecoderBase.ACTION_TOKEN))
             {

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Ink.Runtime;
+using Newtonsoft.Json;
 using TextDecoder.Parser;
-using Object = Ink.Runtime.Object;
 using UnityEngine;
 
 [Serializable]
@@ -42,7 +43,7 @@ public class NarrativeScript : INarrativeScript
         }
         _objectStorage = new ObjectStorage();
         Story = new Story(Script.text);
-        ReadScript(Story, actionDecoder ?? new ObjectPreloader(_objectStorage));
+        ReadScript(actionDecoder ?? new ObjectPreloader(_objectStorage));
     }
 
     /// <summary>
@@ -54,14 +55,32 @@ public class NarrativeScript : INarrativeScript
     /// </summary>
     /// <param name="story">The Ink story to read</param>
     /// <param name="actionDecoder">An optional action decoder, used for testing</param>
-    private void ReadScript(Story story, IActionDecoder actionDecoder)
+    private void ReadScript(IActionDecoder actionDecoder)
     {
-        var lines = new List<string>();
-        
-        ReadContent(story.mainContentContainer.content, lines, story);
-        ReadContent(story.mainContentContainer.namedOnlyContent?.Values.ToList(), lines, story);
+        var lines = Regex.Matches(Script.text, @"(&.+?)\"",\""\\n\""");
+        var evaluatedLines = new List<string>();
 
-        var actions = lines.Where(line => line[0] == '&').Distinct();
+        foreach (Match match in lines)
+        {
+            var segments = Regex.Split(match.Groups[1].Value, @",\"",\""ev\"",{\""(VAR\?\"":\"".+?)\""},\""out\"",\""\/ev");
+            var output = "";
+            foreach (var segment in segments)
+            {
+                var segmentToAdd = segment;
+                if (segment.Contains("VAR?"))
+                {
+                    var variableName = Regex.Match(segment, @":\""(.+)").Groups[1].Value;
+                    segmentToAdd = Regex.Match(Script.text, @"(?<=,(.+?)),{\""VAR=\"":\""" + variableName + @"\""}").Groups[1].Value;
+                }
+
+                output += $"{segmentToAdd},";
+            }
+
+            output = output.Trim(',');
+            evaluatedLines.Add(output);
+        }
+
+        var actions = evaluatedLines.Where(line => line != string.Empty && line[0] == '&').Distinct();
         foreach (var action in actions)
         {
             try
@@ -74,50 +93,6 @@ public class NarrativeScript : INarrativeScript
                 // with resources need to be handled by the ObjectPreloader
             }
         }
-    }
-
-    /// <summary>
-    /// Reads the content of an Ink file.
-    /// Ink files exist as containers within containers.
-    /// Reads the content of containers until a StringValue
-    /// is found, which is then added to a provided list.
-    /// </summary>
-    /// <param name="content">The Ink container content to read</param>
-    /// <param name="lines">A list to add read lines to</param>
-    /// <param name="story">The story containing the "content" container</param>
-    public static void ReadContent(List<Object> content, List<string> lines, Story story)
-    {
-        if (content == null)
-        {
-            return;
-        }
-
-        lines.Add(string.Empty);
-        foreach (var obj in content)
-        {
-            switch (obj)
-            {
-                case Container container:
-                    ReadContent(container.content, lines, story);
-                    break;
-                case StringValue value:
-                    if (value.ToString() == "\n" && lines.Last() != string.Empty)
-                    {
-                        lines.Add(string.Empty);
-                    }
-                    else if (value.ToString() != "\n")
-                    {
-                        lines[lines.Count - 1] += value.ToString();
-                    }
-                    break;
-                case VariableReference variableReference:
-                    var variableValue = story.variablesState.GetVariableWithName(variableReference.name);
-                    lines[lines.Count - 1] += variableValue;
-                    break;
-            }
-        }
-
-        lines.RemoveAll(line => line == string.Empty);
     }
 
     /// <summary>
