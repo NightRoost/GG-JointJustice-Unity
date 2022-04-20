@@ -62,7 +62,7 @@ public class NarrativeScript : INarrativeScript
 
         foreach (Match match in lines)
         {
-            var segments = Regex.Split(match.Groups[1].Value, @",\"",\""ev\"",{\""(VAR\?\"":\"".+?)\""},\""out\"",\""\/ev");
+            var segments = Regex.Split(match.Groups[1].Value, @",\"",\""ev\"",{\""(VAR\?\"":\"".+?)\""},\""out\"",\""(?:/ev\"",\""\^,|/ev)");
             var output = "";
             foreach (var segment in segments)
             {
@@ -78,6 +78,11 @@ public class NarrativeScript : INarrativeScript
 
             output = output.Trim(',');
             evaluatedLines.Add(output);
+        }
+
+        foreach (var line in evaluatedLines)
+        {
+            Debug.Log(line);
         }
 
         var actions = evaluatedLines.Where(line => line != string.Empty && line[0] == '&').Distinct();
