@@ -47,45 +47,15 @@ public class NarrativeScript : INarrativeScript
     }
 
     /// <summary>
-    /// Creates an action decoder and assigns an ObjectPreloader to its controller properties.
-    /// Gets all lines from an Ink story, extracts all of the action lines (using a
-    /// hash set to remove duplicate lines). Calls the ActionDecoder's OnNewActionLine method
-    /// for each action extracted. ActionDecoder then calls the actions
-    /// on the ObjectPreloader to preload any required assets.
+    /// Gets all lines from an Ink story and extracts all 
+    /// of the action lines using regular expressions.
+    /// Calls the OnNewActionLine method on a given IActionDecoder
+    /// for each action extracted.
     /// </summary>
-    /// <param name="story">The Ink story to read</param>
     /// <param name="actionDecoder">An optional action decoder, used for testing</param>
     private void ReadScript(IActionDecoder actionDecoder)
     {
-        var lines = Regex.Matches(Script.text, @"(&.+?)\"",\""\\n\""");
-        var evaluatedLines = new List<string>();
-
-        foreach (Match match in lines)
-        {
-            var segments = Regex.Split(match.Groups[1].Value, @",\"",\""ev\"",{\""(VAR\?\"":\"".+?)\""},\""out\"",\""(?:/ev\"",\""\^,|/ev)");
-            var output = "";
-            foreach (var segment in segments)
-            {
-                var segmentToAdd = segment;
-                if (segment.Contains("VAR?"))
-                {
-                    var variableName = Regex.Match(segment, @":\""(.+)").Groups[1].Value;
-                    segmentToAdd = Regex.Match(Script.text, @"(?<=,(.+?)),{\""VAR=\"":\""" + variableName + @"\""}").Groups[1].Value;
-                }
-
-                output += $"{segmentToAdd},";
-            }
-
-            output = output.Trim(',');
-            evaluatedLines.Add(output);
-        }
-
-        foreach (var line in evaluatedLines)
-        {
-            Debug.Log(line);
-        }
-
-        var actions = evaluatedLines.Where(line => line != string.Empty && line[0] == '&').Distinct();
+        var actions = ExtractActions(Script.text).Distinct();
         foreach (var action in actions)
         {
             try
@@ -98,6 +68,36 @@ public class NarrativeScript : INarrativeScript
                 // with resources need to be handled by the ObjectPreloader
             }
         }
+    }
+
+    public static string[] ExtractActions(string script)
+    {
+        var lines = Regex.Matches(script, @"(&.+?)\"",\""\\n\""");
+        var evaluatedLines = new List<string>();
+
+        foreach (Match match in lines)
+        {
+            var segments = Regex.Split(match.Groups[1].Value,
+                @",\"",\""ev\"",{\""(VAR\?\"":\"".+?)\""},\""out\"",\""(?:/ev\"",\""\^,|/ev)");
+            var output = "";
+            foreach (var segment in segments)
+            {
+                var segmentToAdd = segment;
+                if (segment.Contains("VAR?"))
+                {
+                    var variableName = Regex.Match(segment, @":\""(.+)").Groups[1].Value;
+                    segmentToAdd = Regex.Match(script, @"(?<=,(.+?)),{\""VAR=\"":\""" + variableName + @"\""}")
+                        .Groups[1].Value;
+                }
+
+                output += $"{segmentToAdd},";
+            }
+
+            output = output.Trim(',');
+            evaluatedLines.Add(output);
+        }
+
+        return evaluatedLines.Where(line => line != string.Empty).ToArray();
     }
 
     /// <summary>
