@@ -109,7 +109,7 @@ namespace Tests.PlayModeTests.Scripts
         {
             const string POSE_NAME = "Sweaty"; 
             Assert.AreNotEqual(POSE_NAME, _witnessAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
-            _actorController.SetPose(POSE_NAME);
+            _actorController.SetPose(POSE_NAME, null);
             yield return null;
             Assert.AreEqual(POSE_NAME, _witnessAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         }

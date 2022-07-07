@@ -111,7 +111,7 @@ public class ActorController : MonoBehaviour, IActorController
     /// </summary>
     /// <param name="pose">Name of the pose to execute</param>
     /// <param name="actorName">Optional name of another actor to run this animation on (defaults to <see cref="_activeActor"/> if not set)</param>
-    public void SetPose(string pose, string actorName = null)
+    public void SetPose(string pose, string actorName)
     {
         if (!string.IsNullOrEmpty(actorName) && FindActorInInventory(actorName) != _activeActor)
         {

@@ -456,14 +456,7 @@ public class ActionDecoder : ActionDecoderBase
     /// <category>Actor</category>
     private void SET_POSE(ActorPoseAssetName poseName, ActorAssetName optional_targetActor = null)
     {
-        if (optional_targetActor == null)
-        {
-            NarrativeGameState.ActorController.SetPose(poseName);
-        }
-        else
-        {
-            NarrativeGameState.ActorController.SetPose(poseName, optional_targetActor);
-        }
+        NarrativeGameState.ActorController.SetPose(poseName, optional_targetActor);
         OnActionDone?.Invoke();
     }
 
