@@ -2371,8 +2371,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 876025881}
-  - component: {fileID: 876025880}
   - component: {fileID: 876025882}
+  - component: {fileID: 876025880}
   m_Layer: 0
   m_Name: ActorController
   m_TagString: Untagged
@@ -4205,7 +4205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456175c2b594046d3923a6d20445dd86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _narrativeScript: {fileID: 0}
+  _narrativeScript: {fileID: 4900000, guid: 7acd73ff59f054bcaa21997ccff75ac5, type: 3}
 --- !u!1 &8699442053336843567
 GameObject:
   m_ObjectHideFlags: 0
