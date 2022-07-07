@@ -69,7 +69,6 @@ namespace TextDecoder
         {
             var targetActor = parameters.Length > 1 ? parameters[1] : null;
             _actorController.PlayEmotion(parameters[0], targetActor);
-            _actionBroadcaster.OnActionDone();
         }
 
         public void SET_ACTOR_POSITION(string[] parameters)

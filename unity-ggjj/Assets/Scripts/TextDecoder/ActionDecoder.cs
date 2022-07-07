@@ -18,72 +18,72 @@ public class ActionDecoder : ActionDecoderBase
     /// <example>&amp;DIALOGUE_SPEED:0.2</example>
     /// <example>&amp;DIALOGUE_SPEED:0.05</example>
     /// <category>Dialogue</category>
-    private void DIALOGUE_SPEED(float characterDelay)
-    {
-        NarrativeGameState.AppearingDialogueController.CharacterDelay = characterDelay;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes punctuation take the given amount of seconds before showing the next letter in dialogue.</summary>
-    /// <param name="seconds">Time in seconds, use `.` (not `,`) for decimal places.</param>
-    /// <example>&amp;PUNCTUATION_SPEED:1.05</example>
-    /// <example>&amp;PUNCTUATION_SPEED:0.2</example>
-    /// <example>&amp;PUNCTUATION_SPEED:0.05</example>
-    /// <category>Dialogue</category>
-    private void PUNCTUATION_SPEED(float seconds)
-    {
-        NarrativeGameState.AppearingDialogueController.DefaultPunctuationDelay = seconds;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Starts or stops auto-skipping of dialogue, where it automatically continues after it is done.</summary>
-    /// <param name="value">Set to either `true` or `false` to enable or disable automatic dialogue skipping respectively.</param>
-    /// <example>&amp;AUTO_SKIP:true</example>
-    /// <example>&amp;AUTO_SKIP:false</example>
-    /// <category>Dialogue</category>
-    private void AUTO_SKIP(bool value)
-    {
-        NarrativeGameState.AppearingDialogueController.AutoSkip = value;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Disables or enables text speedup. Enabled by default.</summary>
-    /// <param name="value">Set to either `true` or `false` to not speedup or speedup text respectively.</param>
-    /// <example>&amp;DISABLE_SKIPPING:true</example>
-    /// <example>&amp;DISABLE_SKIPPING:false</example>
-    /// <category>Dialogue</category>
-    private void DISABLE_SKIPPING(bool value)
-    {
-        NarrativeGameState.AppearingDialogueController.SkippingDisabled = value;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next dialogue add to the current one instead of replacing it.</summary>
-    /// <example>&amp;CONTINUE_DIALOGUE</example>
-    /// <category>Dialogue</category>
-    private void CONTINUE_DIALOGUE()
-    {
-        NarrativeGameState.AppearingDialogueController.ContinueDialogue = true;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next line of dialogue appear all at once, instead of character by character.</summary>
-    /// <category>Dialogue</category>
-    /// <example>&amp;APPEAR_INSTANTLY</example>
-    private void APPEAR_INSTANTLY()
-    {
-        NarrativeGameState.AppearingDialogueController.AppearInstantly = true;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Hides the dialogue textbox until the next line of dialogue.</summary>
-    /// <category>Dialogue</category>
-    /// <example>&amp;HIDE_TEXTBOX</example>
-    private void HIDE_TEXTBOX()
-    {
-        NarrativeGameState.AppearingDialogueController.TextBoxHidden = true;
-        OnActionDone?.Invoke();
-    }
+    // private void DIALOGUE_SPEED(float characterDelay)
+    // {
+    //     NarrativeGameState.AppearingDialogueController.CharacterDelay = characterDelay;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes punctuation take the given amount of seconds before showing the next letter in dialogue.</summary>
+    // /// <param name="seconds">Time in seconds, use `.` (not `,`) for decimal places.</param>
+    // /// <example>&amp;PUNCTUATION_SPEED:1.05</example>
+    // /// <example>&amp;PUNCTUATION_SPEED:0.2</example>
+    // /// <example>&amp;PUNCTUATION_SPEED:0.05</example>
+    // /// <category>Dialogue</category>
+    // private void PUNCTUATION_SPEED(float seconds)
+    // {
+    //     NarrativeGameState.AppearingDialogueController.DefaultPunctuationDelay = seconds;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Starts or stops auto-skipping of dialogue, where it automatically continues after it is done.</summary>
+    // /// <param name="value">Set to either `true` or `false` to enable or disable automatic dialogue skipping respectively.</param>
+    // /// <example>&amp;AUTO_SKIP:true</example>
+    // /// <example>&amp;AUTO_SKIP:false</example>
+    // /// <category>Dialogue</category>
+    // private void AUTO_SKIP(bool value)
+    // {
+    //     NarrativeGameState.AppearingDialogueController.AutoSkip = value;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Disables or enables text speedup. Enabled by default.</summary>
+    // /// <param name="value">Set to either `true` or `false` to not speedup or speedup text respectively.</param>
+    // /// <example>&amp;DISABLE_SKIPPING:true</example>
+    // /// <example>&amp;DISABLE_SKIPPING:false</example>
+    // /// <category>Dialogue</category>
+    // private void DISABLE_SKIPPING(bool value)
+    // {
+    //     NarrativeGameState.AppearingDialogueController.SkippingDisabled = value;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next dialogue add to the current one instead of replacing it.</summary>
+    // /// <example>&amp;CONTINUE_DIALOGUE</example>
+    // /// <category>Dialogue</category>
+    // private void CONTINUE_DIALOGUE()
+    // {
+    //     NarrativeGameState.AppearingDialogueController.ContinueDialogue = true;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next line of dialogue appear all at once, instead of character by character.</summary>
+    // /// <category>Dialogue</category>
+    // /// <example>&amp;APPEAR_INSTANTLY</example>
+    // private void APPEAR_INSTANTLY()
+    // {
+    //     NarrativeGameState.AppearingDialogueController.AppearInstantly = true;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Hides the dialogue textbox until the next line of dialogue.</summary>
+    // /// <category>Dialogue</category>
+    // /// <example>&amp;HIDE_TEXTBOX</example>
+    // private void HIDE_TEXTBOX()
+    // {
+    //     NarrativeGameState.AppearingDialogueController.TextBoxHidden = true;
+    //     OnActionDone?.Invoke();
+    // }
     #endregion
 
     #region EvidenceController
