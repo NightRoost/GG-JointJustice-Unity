@@ -28,6 +28,11 @@ public abstract class ActionDecoderBase : IActionDecoder
         method.MethodInfo.Invoke(this, method.ParsedMethodParameters.ToArray());
     }
 
+    public bool IsAction(string nextLine)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// This method is responsible for:
     ///     1. Finding a method inside this class, matching `methodName`
@@ -139,16 +144,6 @@ public abstract class ActionDecoderBase : IActionDecoder
             MethodInfo = methodInfo,
             ParsedMethodParameters = parsedMethodParameters
         };
-    }
-
-    /// <summary>
-    /// Determines if a line of dialogue is an action.
-    /// </summary>
-    /// <param name="line">The line to check.</param>
-    /// <returns>If the line is an action (true) or not (false)</returns>
-    public bool IsAction(string line)
-    {
-        return line != string.Empty && line[0] == ACTION_TOKEN;
     }
 
     protected virtual void ADD_EVIDENCE(EvidenceAssetName evidenceName)

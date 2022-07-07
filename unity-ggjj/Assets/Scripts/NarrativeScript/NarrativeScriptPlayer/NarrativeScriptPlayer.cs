@@ -108,16 +108,9 @@ public class NarrativeScriptPlayer : INarrativeScriptPlayer
             Continue();
         }
         
-        if (_narrativeGameState.ActionDecoder.IsAction(nextLine))
+        if (ActionParser.IsAction(nextLine))
         {
-            try
-            {
-                _narrativeGameState.ActionDecoder.InvokeMatchingMethod(nextLine);
-            }
-            catch 
-            {
-                Object.FindObjectOfType<ActionBroadcaster>().BroadcastAction(nextLine);
-            }
+            _narrativeGameState.ActionBroadcaster.BroadcastAction(nextLine);
         }
         else
         {

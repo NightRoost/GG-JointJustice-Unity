@@ -34,5 +34,15 @@ namespace TextDecoder
 
             return scriptAction;
         }
+        
+        /// <summary>
+        /// Determines if a line of dialogue is an action.
+        /// </summary>
+        /// <param name="line">The line to check.</param>
+        /// <returns>If the line is an action (true) or not (false)</returns>
+        public static bool IsAction(string line)
+        {
+            return line != string.Empty && line[0] == ACTION_TOKEN;
+        }
     }
 }

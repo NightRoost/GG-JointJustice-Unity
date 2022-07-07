@@ -16,7 +16,7 @@ namespace TextDecoder
         
         public void ACTOR(string[] parameters)
         {
-            _actorController.SetActiveActor(parameters[0]);
+            _actorController.SetActiveActor(new AssetName(parameters[0]));
             _actionBroadcaster.OnActionDone();
         }
 
@@ -36,19 +36,19 @@ namespace TextDecoder
 
         public void SPEAK(string[] parameters)
         {
-            _actorController.SetActiveSpeaker(parameters[0], SpeakingType.Speaking);
+            _actorController.SetActiveSpeaker(new AssetName(parameters[0]), SpeakingType.Speaking);
             _actionBroadcaster.OnActionDone();
         }
 
         public void THINK(string[] parameters)
         {
-            _actorController.SetActiveSpeaker(parameters[0], SpeakingType.Thinking);
+            _actorController.SetActiveSpeaker(new AssetName(parameters[0]), SpeakingType.Thinking);
             _actionBroadcaster.OnActionDone();
         }
 
         public void SPEAK_UNKNOWN(string[] parameters)
         {
-            _actorController.SetActiveSpeaker(parameters[0], SpeakingType.SpeakingWithUnknownName);
+            _actorController.SetActiveSpeaker(new AssetName(parameters[0]), SpeakingType.SpeakingWithUnknownName);
             _actionBroadcaster.OnActionDone();
         }
 
@@ -60,20 +60,20 @@ namespace TextDecoder
 
         public void SET_POSE(string[] parameters)
         {
-            var targetActor = parameters.Length > 1 ? parameters[1] : null;
-            _actorController.SetPose(parameters[0], targetActor);
+            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]) : null;
+            _actorController.SetPose(new AssetName(parameters[0]), targetActor);
             _actionBroadcaster.OnActionDone();
         }
 
         public void PLAY_EMOTION(string[] parameters)
         {
-            var targetActor = parameters.Length > 1 ? parameters[1] : null;
-            _actorController.PlayEmotion(parameters[0], targetActor);
+            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]) : null;
+            _actorController.PlayEmotion(new AssetName(parameters[0]), targetActor);
         }
 
         public void SET_ACTOR_POSITION(string[] parameters)
         {
-            _actorController.AssignActorToSlot(parameters[0], parameters[1]);
+            _actorController.AssignActorToSlot(new AssetName(parameters[0]), new AssetName(parameters[1]));
             _actionBroadcaster.OnActionDone();
         }
     }

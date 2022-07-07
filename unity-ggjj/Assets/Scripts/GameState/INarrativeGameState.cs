@@ -1,3 +1,5 @@
+using TextDecoder;
+
 public interface INarrativeGameState
 {
     IActorController ActorController { get; }
@@ -13,4 +15,5 @@ public interface INarrativeGameState
     IChoiceMenu ChoiceMenu { get; }
     IBGSceneList BGSceneList { get; }
     ISceneLoader SceneLoader { get; }
+    ActionBroadcaster ActionBroadcaster { get; }
 }

@@ -1,3 +1,4 @@
+using TextDecoder;
 using UnityEngine;
 
 public class NarrativeGameState : MonoBehaviour, INarrativeGameState
@@ -13,6 +14,7 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     [SerializeField] private BGSceneList _bgSceneList;
     [SerializeField] private ChoiceMenu _choiceMenu;
     [SerializeField] private SceneLoader _sceneLoader;
+    [SerializeField] private ActionBroadcaster _actionBroadcaster;
 
     private NarrativeScriptStorage _narrativeScriptStorage;
     
@@ -29,6 +31,7 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     public IChoiceMenu ChoiceMenu => _choiceMenu;
     public IBGSceneList BGSceneList => _bgSceneList;
     public ISceneLoader SceneLoader => _sceneLoader;
+    public ActionBroadcaster ActionBroadcaster => _actionBroadcaster;
 
     private void Awake()
     {

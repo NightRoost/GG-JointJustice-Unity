@@ -493,13 +493,13 @@ public class ActionDecoder : ActionDecoderBase
     /// <example>&amp;UNLOCK_CHAPTER:CHAPTER_2</example>
     /// <example>&amp;UNLOCK_CHAPTER:BONUS_CHAPTER_2</example>
     /// <category>Progression</category>
-    private void UNLOCK_CHAPTER(SaveData.Progression.Chapters chapter)
-    {
-        PlayerPrefsProxy.UpdateCurrentSaveData((ref SaveData data) => {
-            data.GameProgression.UnlockedChapters |= chapter;
-        });
-        OnActionDone?.Invoke();
-    }
+    // private void UNLOCK_CHAPTER(SaveData.Progression.Chapters chapter)
+    // {
+    //     PlayerPrefsProxy.UpdateCurrentSaveData((ref SaveData data) => {
+    //         data.GameProgression.UnlockedChapters |= chapter;
+    //     });
+    //     OnActionDone?.Invoke();
+    // }
     #endregion
 
     #region Gameplay
@@ -507,34 +507,34 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="mode">Name of game mode to put the player in</param>
     /// <example>&amp;MODE:CrossExamination</example>
     /// <category>Gameplay</category>
-    private void MODE(GameMode mode)
-    {
-        NarrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer.GameMode = mode;
-        switch (mode)
-        {
-            case GameMode.Dialogue:
-                NarrativeGameState.PenaltyManager.OnCrossExaminationEnd();
-                break;
-            case GameMode.CrossExamination:
-                NarrativeGameState.PenaltyManager.OnCrossExaminationStart();
-                break;
-            default:
-                throw new NotSupportedException($"Switching to game mode '{mode}' is not supported");
-        }
-
-        OnActionDone?.Invoke();
-    }
+    // private void MODE(GameMode mode)
+    // {
+    //     NarrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer.GameMode = mode;
+    //     switch (mode)
+    //     {
+    //         case GameMode.Dialogue:
+    //             NarrativeGameState.PenaltyManager.OnCrossExaminationEnd();
+    //             break;
+    //         case GameMode.CrossExamination:
+    //             NarrativeGameState.PenaltyManager.OnCrossExaminationStart();
+    //             break;
+    //         default:
+    //             throw new NotSupportedException($"Switching to game mode '{mode}' is not supported");
+    //     }
+    //
+    //     OnActionDone?.Invoke();
+    // }
 
     /// <summary>
     /// Resets the number of penalties the player has left.
     /// </summary>
     /// <example>&amp;RESET_PENALTIES</example>
     /// <category>Gameplay</category>
-    private void RESET_PENALTIES()
-    {
-        NarrativeGameState.PenaltyManager.ResetPenalties();
-        OnActionDone?.Invoke();
-    }
+    // private void RESET_PENALTIES()
+    // {
+    //     NarrativeGameState.PenaltyManager.ResetPenalties();
+    //     OnActionDone?.Invoke();
+    // }
 
     /// <summary>
     /// Loads a narrative script, ending the current narrative script
@@ -543,23 +543,23 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="narrativeScriptName" validFiles="Assets/Resources/InkDialogueScripts/*.ink">The name of the narrative script to load</param>
     /// <example>&amp;LOAD_SCRIPT:Case_1_Part_1</example>
     /// <category>Script Loading</category>
-    private void LOAD_SCRIPT(NarrativeScriptAssetName narrativeScriptName)
-    {
-        NarrativeGameState.NarrativeScriptPlayerComponent.LoadScript(narrativeScriptName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>
-    /// Sets the game over narrative script for the currently playing narrative script
-    /// </summary>
-    /// <param name="gameOverScriptName" validFiles="Assets/Resources/InkDialogueScripts/Failures/*.ink">The name of the game over script</param>
-    /// <example>&amp;SET_GAME_OVER_SCRIPT:TMPH_GameOver</example>
-    /// <category>Script Loading</category>
-    private void SET_GAME_OVER_SCRIPT(GameOverScriptAssetName gameOverScriptName)
-    {
-        NarrativeGameState.NarrativeScriptStorage.SetGameOverScript(gameOverScriptName);
-        OnActionDone?.Invoke();
-    }
+    // private void LOAD_SCRIPT(NarrativeScriptAssetName narrativeScriptName)
+    // {
+    //     NarrativeGameState.NarrativeScriptPlayerComponent.LoadScript(narrativeScriptName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>
+    // /// Sets the game over narrative script for the currently playing narrative script
+    // /// </summary>
+    // /// <param name="gameOverScriptName" validFiles="Assets/Resources/InkDialogueScripts/Failures/*.ink">The name of the game over script</param>
+    // /// <example>&amp;SET_GAME_OVER_SCRIPT:TMPH_GameOver</example>
+    // /// <category>Script Loading</category>
+    // private void SET_GAME_OVER_SCRIPT(GameOverScriptAssetName gameOverScriptName)
+    // {
+    //     NarrativeGameState.NarrativeScriptStorage.SetGameOverScript(gameOverScriptName);
+    //     OnActionDone?.Invoke();
+    // }
 
     /// <summary>
     /// Adds a failure script for the currently playing narrative script
@@ -567,22 +567,22 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="failureScriptName" validFiles="Assets/Resources/InkDialogueScripts/Failures/*.ink">The name of the failure script to add</param>
     /// <example>&amp;ADD_FAILURE_SCRIPT:TMPH_FAIL_1</example>
     /// <category>Script Loading</category>
-    private void ADD_FAILURE_SCRIPT(FailureScriptAssetName failureScriptName)
-    {
-        NarrativeGameState.NarrativeScriptStorage.AddFailureScript(failureScriptName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>
-    /// Loads a Unity scene
-    /// </summary>
-    /// <param name="sceneName" validFiles="Assets/Scenes/*.unity">The name of the scene to load</param>
-    /// <example>&amp;LOAD_SCENE:Credits</example>
-    /// <category>Script Loading</category>
-    private void LOAD_SCENE(UnitySceneAssetName sceneName)
-    {
-        NarrativeGameState.SceneLoader.LoadScene(sceneName);
-    }
+    // private void ADD_FAILURE_SCRIPT(FailureScriptAssetName failureScriptName)
+    // {
+    //     NarrativeGameState.NarrativeScriptStorage.AddFailureScript(failureScriptName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>
+    // /// Loads a Unity scene
+    // /// </summary>
+    // /// <param name="sceneName" validFiles="Assets/Scenes/*.unity">The name of the scene to load</param>
+    // /// <example>&amp;LOAD_SCENE:Credits</example>
+    // /// <category>Script Loading</category>
+    // private void LOAD_SCENE(UnitySceneAssetName sceneName)
+    // {
+    //     NarrativeGameState.SceneLoader.LoadScene(sceneName);
+    // }
     #endregion
 #pragma warning restore IDE0051 // Remove unused private members
 // ReSharper restore UnusedMember.Local

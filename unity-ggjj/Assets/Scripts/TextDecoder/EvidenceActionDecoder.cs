@@ -19,19 +19,19 @@ namespace TextDecoder
 
         public void ADD_EVIDENCE(string[] parameters)
         {
-            _evidenceController.AddEvidence(ObjectStorage.GetObject<EvidenceData>(parameters[0]));
+            _evidenceController.AddEvidence(ObjectStorage.GetObject<EvidenceData>(new AssetName(parameters[0])));
             _actionBroadcaster.OnActionDone();
         }
         
         public void REMOVE_EVIDENCE(string[] parameters)
         {
-            _evidenceController.RemoveEvidence(ObjectStorage.GetObject<EvidenceData>(parameters[0]));
+            _evidenceController.RemoveEvidence(ObjectStorage.GetObject<EvidenceData>(new AssetName(parameters[0])));
             _actionBroadcaster.OnActionDone();
         }
         
         public void ADD_RECORD(string[] parameters)
         {
-            _evidenceController.AddRecord(ObjectStorage.GetObject<ActorData>(parameters[0]));
+            _evidenceController.AddRecord(ObjectStorage.GetObject<ActorData>(new AssetName(parameters[0])));
             _actionBroadcaster.OnActionDone();
         }
 
@@ -43,7 +43,7 @@ namespace TextDecoder
         
         public void SUBSTITUTE_EVIDENCE(string[] parameters)
         {
-            _evidenceController.SubstituteEvidence(ObjectStorage.GetObject<EvidenceData>(parameters[0]), ObjectStorage.GetObject<EvidenceData>(parameters[1]));
+            _evidenceController.SubstituteEvidence(ObjectStorage.GetObject<EvidenceData>(new AssetName(parameters[0])), ObjectStorage.GetObject<EvidenceData>(new AssetName(parameters[0])));
             _actionBroadcaster.OnActionDone();
         }
     }
