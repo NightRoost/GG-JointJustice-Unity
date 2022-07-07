@@ -91,51 +91,51 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="evidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of evidence to add</param>
     /// <example>&amp;ADD_EVIDENCE:Bent_Coins</example>
     /// <category>Evidence</category>
-    protected override void ADD_EVIDENCE(EvidenceAssetName evidenceName)
-    {
-        NarrativeGameState.EvidenceController.AddEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(evidenceName));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Removes the provided evidence from the court record.</summary>
-    /// <param name="evidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of evidence to remove</param>
-    /// <example>&amp;REMOVE_EVIDENCE:Bent_Coins</example>
-    /// <category>Evidence</category>
-    private void REMOVE_EVIDENCE(EvidenceAssetName evidenceName)
-    {
-        NarrativeGameState.EvidenceController.RemoveEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(evidenceName));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Adds the provided actor to the court record.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor to add to the court record</param>
-    /// <example>&amp;ADD_RECORD:Jory</example>
-    /// <category>Evidence</category>
-    protected override void ADD_RECORD(ActorAssetName actorName)
-    {
-        NarrativeGameState.EvidenceController.AddRecord(NarrativeGameState.ObjectStorage.GetObject<ActorData>(actorName));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Forces the evidence menu open and doesn't continue the story until the player presents evidence.</summary>
-    /// <example>&amp;PRESENT_EVIDENCE</example>
-    /// <category>Evidence</category>
-    private void PRESENT_EVIDENCE()
-    {
-        NarrativeGameState.EvidenceController.RequirePresentEvidence();
-        NarrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer.GameMode = GameMode.CrossExamination;
-    }
-
-    /// <summary>Substitutes the provided evidence for their substitute.</summary>
-    /// <param name="initialEvidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of evidence to replace with the substitute</param>
-    /// <param name="substituteEvidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of the substitute evidence</param>
-    /// <example>&amp;SUBSTITUTE_EVIDENCE:Plumber_Invoice,Bent_Coins</example>
-    /// <category>Evidence</category>
-    private void SUBSTITUTE_EVIDENCE(EvidenceAssetName initialEvidenceName, EvidenceAssetName substituteEvidenceName)
-    {
-        NarrativeGameState.EvidenceController.SubstituteEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(initialEvidenceName), NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(substituteEvidenceName));
-        OnActionDone?.Invoke();
-    }
+    // protected override void ADD_EVIDENCE(EvidenceAssetName evidenceName)
+    // {
+    //     NarrativeGameState.EvidenceController.AddEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(evidenceName));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Removes the provided evidence from the court record.</summary>
+    // /// <param name="evidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of evidence to remove</param>
+    // /// <example>&amp;REMOVE_EVIDENCE:Bent_Coins</example>
+    // /// <category>Evidence</category>
+    // private void REMOVE_EVIDENCE(EvidenceAssetName evidenceName)
+    // {
+    //     NarrativeGameState.EvidenceController.RemoveEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(evidenceName));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Adds the provided actor to the court record.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor to add to the court record</param>
+    // /// <example>&amp;ADD_RECORD:Jory</example>
+    // /// <category>Evidence</category>
+    // protected override void ADD_RECORD(ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.EvidenceController.AddRecord(NarrativeGameState.ObjectStorage.GetObject<ActorData>(actorName));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Forces the evidence menu open and doesn't continue the story until the player presents evidence.</summary>
+    // /// <example>&amp;PRESENT_EVIDENCE</example>
+    // /// <category>Evidence</category>
+    // private void PRESENT_EVIDENCE()
+    // {
+    //     NarrativeGameState.EvidenceController.RequirePresentEvidence();
+    //     NarrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer.GameMode = GameMode.CrossExamination;
+    // }
+    //
+    // /// <summary>Substitutes the provided evidence for their substitute.</summary>
+    // /// <param name="initialEvidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of evidence to replace with the substitute</param>
+    // /// <param name="substituteEvidenceName" validFiles="Assets/Resources/Evidence/*.asset">Name of the substitute evidence</param>
+    // /// <example>&amp;SUBSTITUTE_EVIDENCE:Plumber_Invoice,Bent_Coins</example>
+    // /// <category>Evidence</category>
+    // private void SUBSTITUTE_EVIDENCE(EvidenceAssetName initialEvidenceName, EvidenceAssetName substituteEvidenceName)
+    // {
+    //     NarrativeGameState.EvidenceController.SubstituteEvidence(NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(initialEvidenceName), NarrativeGameState.ObjectStorage.GetObject<EvidenceData>(substituteEvidenceName));
+    //     OnActionDone?.Invoke();
+    // }
     #endregion
 
     #region AudioController
