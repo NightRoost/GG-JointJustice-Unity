@@ -382,111 +382,111 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
     /// <example>&amp;ACTOR:Arin</example>
     /// <category>Actor</category>
-    protected override void ACTOR(ActorAssetName actorName)
-    {
-        NarrativeGameState.ActorController.SetActiveActor(actorName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Shows the current active actor, or a specified actor in the scene</summary>
-    /// <param name="optional_actorName" validFiles="Assets/Resources/Actors/*.asset">(Optional) Name of the actor to show</param>
-    /// <example>&amp;SHOW_ACTOR</example>
-    /// <example>&amp;SHOW_ACTOR:Arin</example>
-    /// <category>Actor</category>
-    private void SHOW_ACTOR(ActorAssetName optional_actorName = null)
-    {
-        NarrativeGameState.ActorController.SetVisibility(true, optional_actorName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Hides the current active actor, or a specified actor in the scene</summary>
-    /// <param name="optional_actorName" validFiles="Assets/Resources/Actors/*.asset">(Optional) Name of the actor to hide</param>
-    /// <example>&amp;HIDE_ACTOR</example>
-    /// <example>&amp;HIDE_ACTOR:Arin</example>
-    /// <category>Actor</category>
-    private void HIDE_ACTOR(ActorAssetName optional_actorName = null)
-    {
-        NarrativeGameState.ActorController.SetVisibility(false, optional_actorName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next non-action line spoken by the provided actor. If the speaking actor matches the actor on screen, it makes their mouth move when speaking.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;SPEAK:Arin</example>
-    /// <category>Dialogue</category>
-    protected override void SPEAK(ActorAssetName actorName)
-    {
-        NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.Speaking);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next non-action line spoken by the provided actor. Doesn't make the actor's mouth.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;THINK:Arin</example>
-    /// <category>Dialogue</category>
-    protected override void THINK(ActorAssetName actorName)
-    {
-        NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.Thinking);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next non-action line spoken by the provided actor but hides the name.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;SPEAK_UNKNOWN:Arin</example>
-    /// <category>Dialogue</category>
-    protected override void SPEAK_UNKNOWN(ActorAssetName actorName)
-    {
-        NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.SpeakingWithUnknownName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the next non-action line spoken by a "narrator" actor.</summary>
-    /// <example>&amp;NARRATE:Arin</example>
-    /// <category>Dialogue</category>
-    private void NARRATE()
-    {
-        NarrativeGameState.ActorController.SetActiveSpeakerToNarrator();
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the currently shown actor switch to target pose. Plays any animation associated with target pose / emotion, but doesn't wait until it is finished before continuing.</summary>
-    /// <param name="poseName" validFiles="Assets/Animations/{ActorAssetName}/*.anim">Poses defined per Actor</param>
-    /// <param name="optional_targetActor" validFiles="Assets/Resources/Actors/*.asset">(optional) Name of the actor</param>
-    /// <example>&amp;SET_POSE:Normal</example>
-    /// <category>Actor</category>
-    private void SET_POSE(ActorPoseAssetName poseName, ActorAssetName optional_targetActor = null)
-    {
-        NarrativeGameState.ActorController.SetPose(poseName, optional_targetActor);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the currently shown actor perform target emotion (fancy word animation on an actor). Practically does the same as SET_POSE, but waits for the emotion to complete. Doesn't work on all poses, possible ones are flagged.</summary>
-    /// <param name="poseName" validFiles="Assets/Animations/{ActorAssetName}/*.anim">Poses defined per Actor</param>
-    /// <param name="optional_targetActor" validFiles="Assets/Resources/Actors/*.asset">(optional) Name of the actor</param>
-    /// <example>&amp;PLAY_EMOTION:Nodding</example>
-    /// <category>Actor</category>
-    private void PLAY_EMOTION(ActorPoseAssetName poseName, ActorAssetName optional_targetActor = null)
-    {
-        if (optional_targetActor == null)
-        {
-            NarrativeGameState.ActorController.PlayEmotion(poseName);
-        }
-        else
-        {
-            NarrativeGameState.ActorController.PlayEmotion(poseName, optional_targetActor);
-        }
-    }
-
-    /// <summary>Sets the target sub-position of the current bg-scene to have the target actor.</summary>
-    /// <param name="slotName">Name of an actor slot in the currently active scene</param>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of an actor</param>
-    /// <example>&amp;SET_ACTOR_POSITION:1,Arin</example>
-    /// <category>Actor</category>
-    protected override void SET_ACTOR_POSITION(string slotName, ActorAssetName actorName)
-    {
-        NarrativeGameState.ActorController.AssignActorToSlot(slotName, actorName);
-        OnActionDone?.Invoke();
-    }
+    // protected override void ACTOR(ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.ActorController.SetActiveActor(actorName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Shows the current active actor, or a specified actor in the scene</summary>
+    // /// <param name="optional_actorName" validFiles="Assets/Resources/Actors/*.asset">(Optional) Name of the actor to show</param>
+    // /// <example>&amp;SHOW_ACTOR</example>
+    // /// <example>&amp;SHOW_ACTOR:Arin</example>
+    // /// <category>Actor</category>
+    // private void SHOW_ACTOR(ActorAssetName optional_actorName = null)
+    // {
+    //     NarrativeGameState.ActorController.SetVisibility(true, optional_actorName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Hides the current active actor, or a specified actor in the scene</summary>
+    // /// <param name="optional_actorName" validFiles="Assets/Resources/Actors/*.asset">(Optional) Name of the actor to hide</param>
+    // /// <example>&amp;HIDE_ACTOR</example>
+    // /// <example>&amp;HIDE_ACTOR:Arin</example>
+    // /// <category>Actor</category>
+    // private void HIDE_ACTOR(ActorAssetName optional_actorName = null)
+    // {
+    //     NarrativeGameState.ActorController.SetVisibility(false, optional_actorName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next non-action line spoken by the provided actor. If the speaking actor matches the actor on screen, it makes their mouth move when speaking.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;SPEAK:Arin</example>
+    // /// <category>Dialogue</category>
+    // protected override void SPEAK(ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.Speaking);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next non-action line spoken by the provided actor. Doesn't make the actor's mouth.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;THINK:Arin</example>
+    // /// <category>Dialogue</category>
+    // protected override void THINK(ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.Thinking);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next non-action line spoken by the provided actor but hides the name.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;SPEAK_UNKNOWN:Arin</example>
+    // /// <category>Dialogue</category>
+    // protected override void SPEAK_UNKNOWN(ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.ActorController.SetActiveSpeaker(actorName, SpeakingType.SpeakingWithUnknownName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the next non-action line spoken by a "narrator" actor.</summary>
+    // /// <example>&amp;NARRATE:Arin</example>
+    // /// <category>Dialogue</category>
+    // private void NARRATE()
+    // {
+    //     NarrativeGameState.ActorController.SetActiveSpeakerToNarrator();
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the currently shown actor switch to target pose. Plays any animation associated with target pose / emotion, but doesn't wait until it is finished before continuing.</summary>
+    // /// <param name="poseName" validFiles="Assets/Animations/{ActorAssetName}/*.anim">Poses defined per Actor</param>
+    // /// <param name="optional_targetActor" validFiles="Assets/Resources/Actors/*.asset">(optional) Name of the actor</param>
+    // /// <example>&amp;SET_POSE:Normal</example>
+    // /// <category>Actor</category>
+    // private void SET_POSE(ActorPoseAssetName poseName, ActorAssetName optional_targetActor = null)
+    // {
+    //     NarrativeGameState.ActorController.SetPose(poseName, optional_targetActor);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the currently shown actor perform target emotion (fancy word animation on an actor). Practically does the same as SET_POSE, but waits for the emotion to complete. Doesn't work on all poses, possible ones are flagged.</summary>
+    // /// <param name="poseName" validFiles="Assets/Animations/{ActorAssetName}/*.anim">Poses defined per Actor</param>
+    // /// <param name="optional_targetActor" validFiles="Assets/Resources/Actors/*.asset">(optional) Name of the actor</param>
+    // /// <example>&amp;PLAY_EMOTION:Nodding</example>
+    // /// <category>Actor</category>
+    // private void PLAY_EMOTION(ActorPoseAssetName poseName, ActorAssetName optional_targetActor = null)
+    // {
+    //     if (optional_targetActor == null)
+    //     {
+    //         NarrativeGameState.ActorController.PlayEmotion(poseName);
+    //     }
+    //     else
+    //     {
+    //         NarrativeGameState.ActorController.PlayEmotion(poseName, optional_targetActor);
+    //     }
+    // }
+    //
+    // /// <summary>Sets the target sub-position of the current bg-scene to have the target actor.</summary>
+    // /// <param name="slotName">Name of an actor slot in the currently active scene</param>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of an actor</param>
+    // /// <example>&amp;SET_ACTOR_POSITION:1,Arin</example>
+    // /// <category>Actor</category>
+    // protected override void SET_ACTOR_POSITION(string slotName, ActorAssetName actorName)
+    // {
+    //     NarrativeGameState.ActorController.AssignActorToSlot(slotName, actorName);
+    //     OnActionDone?.Invoke();
+    // }
 
     /// <summary>Unlocks a new chapter inside the chapter select. **(This is persistent, even when the game is restarted!)**</summary>
     /// <param name="chapter">Name of the chapter to unlock</param>

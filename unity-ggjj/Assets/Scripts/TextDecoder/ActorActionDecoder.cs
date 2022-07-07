@@ -11,6 +11,7 @@ namespace TextDecoder
         private void Awake()
         {
             _actorController = GetComponent<ActorController>();
+            _actionBroadcaster = transform.parent.GetComponent<ActionBroadcaster>();
         }
         
         public void ACTOR(string[] parameters)
@@ -51,7 +52,7 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void NARRATE(string[] parameters)
+        public void NARRATE()
         {
             _actorController.SetActiveSpeakerToNarrator();
             _actionBroadcaster.OnActionDone();

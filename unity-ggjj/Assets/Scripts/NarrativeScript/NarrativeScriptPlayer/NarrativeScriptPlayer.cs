@@ -2,7 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using Ink.Runtime;
+using TextDecoder;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Acts a wrapper around Ink stories, providing access to each new line in a Story
@@ -108,7 +110,14 @@ public class NarrativeScriptPlayer : INarrativeScriptPlayer
         
         if (_narrativeGameState.ActionDecoder.IsAction(nextLine))
         {
-            _narrativeGameState.ActionDecoder.InvokeMatchingMethod(nextLine);
+            try
+            {
+                _narrativeGameState.ActionDecoder.InvokeMatchingMethod(nextLine);
+            }
+            catch 
+            {
+                Object.FindObjectOfType<ActionBroadcaster>().BroadcastAction(nextLine);
+            }
         }
         else
         {
