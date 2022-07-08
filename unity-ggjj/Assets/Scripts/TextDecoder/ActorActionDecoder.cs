@@ -13,7 +13,12 @@ namespace TextDecoder
             _actorController = GetComponent<ActorController>();
             _actionBroadcaster = transform.parent.GetComponent<ActionBroadcaster>();
         }
-        
+
+        /// <summary>Sets the current shown actor on screen to the one provided. Starts it in the normal pose.</summary>
+        /// <asset type="Actor" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</asset>
+        /// <param name="parameters">0) Actor name</param>
+        /// <example>&amp;ACTOR:Arin</example>
+        /// <category>Actor</category>
         public void ACTOR(string[] parameters)
         {
             _actorController.SetActiveActor(new AssetName(parameters[0]));
