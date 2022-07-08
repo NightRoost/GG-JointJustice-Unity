@@ -40,7 +40,7 @@ namespace Tests.PlayModeTests.Scenes.NarrativeScripts
         [TestCaseSource(nameof(NarrativeScripts))]
         public IEnumerator NarrativeScriptsRunWithNoErrors(TextAsset narrativeScriptText)
         {
-            _narrativeScript = new NarrativeScript(narrativeScriptText);
+            _narrativeScript = new NarrativeScript(narrativeScriptText, _narrativeGameState.PreloadingActionBroadcaster);
             _narrativeGameState.NarrativeScriptStorage.NarrativeScript = _narrativeScript;
             _narrativeGameState.StartGame();
             _narrativeScriptPlayer = _narrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer;

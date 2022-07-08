@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TextDecoder
 {
     public class ActionBroadcaster : MonoBehaviour, IActionBroadcaster
     {
-        [SerializeField] private NarrativeScriptPlayerComponent _narrativeScriptPlayer;
+        [SerializeField] private UnityEvent _onActionDone;
         
-        public void BroadcastAction(string actionLine)
+        public void BroadcastAction(string actionLine, SendMessageOptions sendMessageOptions = SendMessageOptions.RequireReceiver)
         {
             var scriptAction = new ScriptAction(actionLine);
             BroadcastMessage(scriptAction.Name, scriptAction.Parameters, SendMessageOptions.RequireReceiver);
@@ -14,7 +15,7 @@ namespace TextDecoder
 
         public void OnActionDone()
         {
-            _narrativeScriptPlayer.Continue();
+            _onActionDone.Invoke();
         }
     }
 }

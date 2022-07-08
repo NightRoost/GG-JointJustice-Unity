@@ -56,7 +56,7 @@ public class NarrativeScriptPlayerComponent : MonoBehaviour, INarrativeScriptPla
         var narrativeScriptText = Resources.Load<TextAsset>($"InkDialogueScripts/{narrativeScriptName}");
         Debug.Assert(narrativeScriptText != null, $"Failed to load narrative script resource at 'InkDialogueScripts/{narrativeScriptName}'");
         
-        var narrativeScript = new NarrativeScript(narrativeScriptText);
+        var narrativeScript = new NarrativeScript(narrativeScriptText, _narrativeGameState.PreloadingActionBroadcaster);
         NarrativeScriptPlayer.ActiveNarrativeScript = narrativeScript;
         _narrativeGameState.BGSceneList.ClearBGScenes();
         _narrativeGameState.BGSceneList.InstantiateBGScenes(narrativeScript);

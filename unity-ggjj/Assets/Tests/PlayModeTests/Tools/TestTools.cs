@@ -102,7 +102,7 @@ namespace Tests.PlayModeTests.Tools
             var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/Tests/PlayModeTests/TestScripts/{narrativeScriptName}.json");
             Assert.IsNotNull(textAsset);
             var narrativeGameState = Object.FindObjectOfType<NarrativeGameState>();
-            narrativeGameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(textAsset);
+            narrativeGameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(textAsset, narrativeGameState.PreloadingActionBroadcaster);
             narrativeGameState.StartGame();
         }
     }

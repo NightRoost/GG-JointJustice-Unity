@@ -17,7 +17,7 @@ public class StoryPlayerTests
     public void SetUp()
     {
         _narrativeGameStateMock.SetupGet(mock => mock.AppearingDialogueController).Returns(new Mock<IAppearingDialogueController>().Object);
-        _narrativeGameStateMock.SetupGet(mock => mock.ActionDecoder).Returns(new Mock<IActionDecoder>().Object);
+        // _narrativeGameStateMock.SetupGet(mock => mock.ActionDecoder).Returns(new Mock<IActionDecoder>().Object);
         _narrativeGameStateMock.SetupGet(mock => mock.ChoiceMenu).Returns(new Mock<IChoiceMenu>().Object);
         _narrativeGameStateMock.SetupGet(mock => mock.ActionBroadcaster).Returns(new Mock<IActionBroadcaster>().Object);
         _narrativeScriptPlayer = new NarrativeScriptPlayer(_narrativeGameStateMock.Object);
@@ -43,10 +43,9 @@ public class StoryPlayerTests
 
         _narrativeScriptPlayer.ActiveNarrativeScript = CreateNarrativeScript(TEST_LINE);
 
-        var actionDecoder = new ActionDecoder();
-        _narrativeGameStateMock.Setup(mock => mock.ActionBroadcaster.BroadcastAction(TEST_LINE)).Verifiable();
+        _narrativeGameStateMock.Setup(mock => mock.ActionBroadcaster.BroadcastAction(TEST_LINE, SendMessageOptions.RequireReceiver)).Verifiable();
         _narrativeScriptPlayer.Continue();
-        _narrativeGameStateMock.Verify(mock => mock.ActionBroadcaster.BroadcastAction(It.IsAny<string>()));
+        _narrativeGameStateMock.Verify(mock => mock.ActionBroadcaster.BroadcastAction(It.IsAny<string>(), SendMessageOptions.RequireReceiver));
     }
 
     [Test]
@@ -123,8 +122,8 @@ public class StoryPlayerTests
         const string TEST_SCRIPT = "&PRESENT_EVIDENCE\n+ [1]\n-> DONE\n+ [BentCoins]\nCorrect\n";
         _narrativeScriptPlayer.ActiveNarrativeScript = CreateNarrativeScript(TEST_SCRIPT);
 
-        var actionDecoder = new ActionDecoder();
-        _narrativeGameStateMock.Setup(mock => mock.ActionDecoder.IsAction(It.IsAny<string>())).Returns<string>(line => actionDecoder.IsAction(line));
+        // var actionDecoder = new ActionDecoder();
+        // _narrativeGameStateMock.Setup(mock => mock.ActionDecoder.IsAction(It.IsAny<string>())).Returns<string>(line => actionDecoder.IsAction(line));
         _narrativeGameStateMock.Setup(mock => mock.AppearingDialogueController.PrintText("Correct\n")).Verifiable();
 
         _narrativeScriptPlayer.Continue();
@@ -139,6 +138,7 @@ public class StoryPlayerTests
     {
         var parser = new InkParser(scriptText);
         var story = parser.Parse().ExportRuntime().ToJson();
-        return new NarrativeScript(new TextAsset(story));
+        var actionBroadcasterMock = new Mock<ActionBroadcaster>();
+        return new NarrativeScript(new TextAsset(story), actionBroadcasterMock.Object);
     }
 }

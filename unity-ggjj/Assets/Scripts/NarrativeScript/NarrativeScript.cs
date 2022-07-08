@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ink.Runtime;
+using TextDecoder;
 using TextDecoder.Parser;
 using Object = Ink.Runtime.Object;
 using UnityEngine;
@@ -22,19 +23,19 @@ public class NarrativeScript : INarrativeScript
     /// Initialise values on construction.
     /// </summary>
     /// <param name="script">An Ink narrative script</param>
-    /// <param name="actionDecoder">An optional action decoder, used for testing</param>
-    public NarrativeScript(TextAsset script, IActionDecoder actionDecoder = null)
+    /// <param name="actionBroadcaster">An optional action decoder, used for testing</param>
+    public NarrativeScript(TextAsset script, IActionBroadcaster actionBroadcaster)
     {
         Script = script;
-        Initialize(actionDecoder);
+        Initialize(actionBroadcaster);
     }
 
     /// <summary>
     /// Initializes script values that cannot be set in the Unity inspector
     /// and begins script reading and object preloading.
     /// </summary>
-    /// <param name="actionDecoder">An optional action decoder, used for testing</param>
-    public void Initialize(IActionDecoder actionDecoder = null)
+    /// <param name="actionBroadcaster"></param>
+    public void Initialize(IActionBroadcaster actionBroadcaster)
     {
         if (Script == null)
         {
@@ -42,7 +43,7 @@ public class NarrativeScript : INarrativeScript
         }
         _objectStorage = new ObjectStorage();
         Story = new Story(Script.text);
-        ReadScript(Story, actionDecoder ?? new ObjectPreloader(_objectStorage));
+        ReadScript(Story, actionBroadcaster);
     }
 
     /// <summary>
@@ -53,26 +54,18 @@ public class NarrativeScript : INarrativeScript
     /// on the ObjectPreloader to preload any required assets.
     /// </summary>
     /// <param name="story">The Ink story to read</param>
-    /// <param name="actionDecoder">An optional action decoder, used for testing</param>
-    private void ReadScript(Story story, IActionDecoder actionDecoder)
+    /// <param name="actionBroadcaster">An optional action decoder, used for testing</param>
+    private void ReadScript(Story story, IActionBroadcaster actionBroadcaster)
     {
         var lines = new List<string>();
         
         ReadContent(story.mainContentContainer.content, lines, story);
         ReadContent(story.mainContentContainer.namedOnlyContent?.Values.ToList(), lines, story);
 
-        var actions = lines.Where(line => line[0] == '&').Distinct();
+        var actions = lines.Where(line => line[0] == ScriptAction.ACTION_TOKEN).Distinct();
         foreach (var action in actions)
         {
-            try
-            {
-                actionDecoder.InvokeMatchingMethod(action);
-            }
-            catch (MethodNotFoundScriptParsingException)
-            {
-                // these types of exceptions are fine, as only actions
-                // with resources need to be handled by the ObjectPreloader
-            }
+            actionBroadcaster.BroadcastAction(action, SendMessageOptions.DontRequireReceiver);
         }
     }
 

@@ -2505,6 +2505,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e789411aea6446bae39500df0e60eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &824766618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824766620}
+  - component: {fileID: 824766619}
+  - component: {fileID: 824766621}
+  m_Layer: 0
+  m_Name: ObjectPreloading
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &824766619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824766618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0292f7fe2d0d4875835b98214e7ed31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onActionDone:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &824766620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824766618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &824766621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824766618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c88367e61b548e2a88dd33662b16e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _narrativeGameState: {fileID: 7963640705624872190}
 --- !u!1 &876025879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,10 +2643,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1056622114}
-  - component: {fileID: 1056622115}
   - component: {fileID: 1056622116}
   m_Layer: 0
-  m_Name: ActionDecoder
+  m_Name: ActionBroadcaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2614,19 +2673,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1056622115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056622113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0236637ba39c2e54dbe80bb16a48408d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _narrativeGameState: {fileID: 7963640705624872190}
 --- !u!114 &1056622116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2639,7 +2685,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0292f7fe2d0d4875835b98214e7ed31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _narrativeScriptPlayer: {fileID: 8054490722184616645}
+  _onActionDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8054490722184616645}
+        m_TargetAssemblyTypeName: NarrativeScriptPlayerComponent, GG-JointJustice
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1082074317
 GameObject:
   m_ObjectHideFlags: 0
@@ -4257,7 +4317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _narrativeScriptPlayerComponent: {fileID: 8054490722184616645}
-  _actionDecoderComponent: {fileID: 1056622115}
   _actorController: {fileID: 876025880}
   _audioController: {fileID: 1767373746181080126}
   _sceneController: {fileID: 2044061589}
@@ -4268,6 +4327,7 @@ MonoBehaviour:
   _choiceMenu: {fileID: 654918159}
   _sceneLoader: {fileID: 606207932}
   _actionBroadcaster: {fileID: 1056622116}
+  _preloadingActionBroadcaster: {fileID: 824766619}
 --- !u!1 &8006518724722608832
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class ObjectPreloaderTests
     private ObjectStorage _objectStorage;
     private ObjectPreloader _objectPreloader;
 
-    private static IEnumerable<MethodInfo> AvailableActionMethods => typeof(ActionDecoderBase).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic).Where(method => new Regex("^[A-Z_]+$").IsMatch(method.Name)).ToArray();
+    private static IEnumerable<MethodInfo> AvailableActionMethods => typeof(ObjectPreloader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic).Where(method => new Regex("^[A-Z_]+$").IsMatch(method.Name)).ToArray();
     private static IEnumerable<string> ActorLoadingActions => AvailableActionMethods.Where(method => method.GetParameters().Any(parameter => parameter.Name.Contains("actor"))).Select(methodInfo => methodInfo.Name);
     private static IEnumerable<string> EvidenceLoadingActions => AvailableActionMethods.Where(method => method.GetParameters().Any(parameter => parameter.Name.Contains("evidence"))).Select(methodInfo => methodInfo.Name);
     private static IEnumerable<string> MusicLoadingActions => AvailableActionMethods.Where(method => method.GetParameters().Any(parameter => parameter.Name.Contains("song"))).Select(methodInfo => methodInfo.Name);
@@ -21,7 +21,7 @@ public class ObjectPreloaderTests
     public void SetUp()
     {
         _objectStorage = new ObjectStorage();
-        _objectPreloader = new ObjectPreloader(_objectStorage);
+        // _objectPreloader = new ObjectPreloader(_objectStorage);
     }
 
     [Test]
@@ -70,7 +70,7 @@ public class ObjectPreloaderTests
             var showItemParameter = action == "SHOW_ITEM" ? ",Left" : "";
 
             var typeSpecificResource = (T)genericResource;
-            _objectPreloader.InvokeMatchingMethod($"&{action}:{actorPositionParameter}{typeSpecificResource.name}{playSongParameter}{showItemParameter}");
+            // _objectPreloader.InvokeMatchingMethod($"&{action}:{actorPositionParameter}{typeSpecificResource.name}{playSongParameter}{showItemParameter}");
             var storedActor = _objectStorage.GetObject<T>(typeSpecificResource.name);
             Assert.AreEqual(storedActor, typeSpecificResource);
         }

@@ -4,7 +4,6 @@ using UnityEngine;
 public class NarrativeGameState : MonoBehaviour, INarrativeGameState
 {
     [SerializeField] private NarrativeScriptPlayerComponent _narrativeScriptPlayerComponent;
-    [SerializeField] private ActionDecoderComponent _actionDecoderComponent;
     [SerializeField] private ActorController _actorController;
     [SerializeField] private AudioController _audioController;
     [SerializeField] private SceneController _sceneController;
@@ -15,6 +14,7 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     [SerializeField] private ChoiceMenu _choiceMenu;
     [SerializeField] private SceneLoader _sceneLoader;
     [SerializeField] private ActionBroadcaster _actionBroadcaster;
+    [SerializeField] private ActionBroadcaster _preloadingActionBroadcaster;
 
     private NarrativeScriptStorage _narrativeScriptStorage;
     
@@ -26,12 +26,12 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     public IEvidenceController EvidenceController => _evidenceController;
     public ISceneController SceneController => _sceneController;
     public IPenaltyManager PenaltyManager => _penaltyManager;
-    public IActionDecoder ActionDecoder => _actionDecoderComponent.Decoder;
     public INarrativeScriptStorage NarrativeScriptStorage => _narrativeScriptStorage;
     public IChoiceMenu ChoiceMenu => _choiceMenu;
     public IBGSceneList BGSceneList => _bgSceneList;
     public ISceneLoader SceneLoader => _sceneLoader;
     public IActionBroadcaster ActionBroadcaster => _actionBroadcaster;
+    public IActionBroadcaster PreloadingActionBroadcaster => _preloadingActionBroadcaster;
 
     private void Awake()
     {
@@ -44,7 +44,6 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     public void StartGame()
     {
         BGSceneList.InstantiateBGScenes(_narrativeScriptStorage.NarrativeScript);
-        _actionDecoderComponent.Decoder.NarrativeGameState = this;
         _narrativeScriptPlayerComponent.NarrativeScriptPlayer.Continue();
     }
 }

@@ -37,7 +37,7 @@ public class NarrativeScriptStorage : INarrativeScriptStorage
     /// <param name="gameOverScriptName">The name of the game over script to set</param>
     public void SetGameOverScript(string gameOverScriptName)
     {
-        GameOverScript = new NarrativeScript(Resources.Load<TextAsset>($"InkDialogueScripts/Failures/{gameOverScriptName}"));
+        GameOverScript = new NarrativeScript(Resources.Load<TextAsset>($"InkDialogueScripts/Failures/{gameOverScriptName}"), _narrativeGameState.PreloadingActionBroadcaster);
         _narrativeGameState.BGSceneList.InstantiateBGScenes(GameOverScript);
     }
     
@@ -47,7 +47,7 @@ public class NarrativeScriptStorage : INarrativeScriptStorage
     /// <param name="failureScriptName">The name of the failure narrative script to add</param>
     public void AddFailureScript(string failureScriptName)
     {
-        var narrativeScript = new NarrativeScript(Resources.Load<TextAsset>($"InkDialogueScripts/Failures/{failureScriptName}"));
+        var narrativeScript = new NarrativeScript(Resources.Load<TextAsset>($"InkDialogueScripts/Failures/{failureScriptName}"), _narrativeGameState.PreloadingActionBroadcaster);
         FailureScripts.Add(narrativeScript);
         _narrativeGameState.BGSceneList.InstantiateBGScenes(narrativeScript);
     }

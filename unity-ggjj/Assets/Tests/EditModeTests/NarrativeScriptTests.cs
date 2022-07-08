@@ -3,6 +3,7 @@ using System.Linq;
 using Ink;
 using Moq;
 using NUnit.Framework;
+using TextDecoder;
 using UnityEngine;
 
 public class NarrativeScriptTests
@@ -44,11 +45,12 @@ public class NarrativeScriptTests
             .ToList();
         var methodCalls = new List<string>();
 
-        var objectPreloaderMock = new Mock<IActionDecoder>();
-        objectPreloaderMock.Setup(mock => mock.InvokeMatchingMethod(It.IsAny<string>()))
+        var actionBroadcasterMock = new Mock<IActionBroadcaster>();
+        actionBroadcasterMock
+            .Setup(mock => mock.BroadcastAction(It.IsAny<string>(), SendMessageOptions.RequireReceiver))
             .Callback<string>(line => methodCalls.Add(line));
 
-        _ = new NarrativeScript(new TextAsset(story.ToJson()), objectPreloaderMock.Object);
+        _ = new NarrativeScript(new TextAsset(story.ToJson()), actionBroadcasterMock.Object);
 
         foreach (var uniqueActionLine in uniqueActionLines)
         {

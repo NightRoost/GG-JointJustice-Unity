@@ -11,9 +11,9 @@ public interface INarrativeGameState
     ISceneController SceneController { get; }
     IPenaltyManager PenaltyManager { get; }
     INarrativeScriptStorage NarrativeScriptStorage{ get; }
-    IActionDecoder ActionDecoder { get; }
     IChoiceMenu ChoiceMenu { get; }
     IBGSceneList BGSceneList { get; }
     ISceneLoader SceneLoader { get; }
     IActionBroadcaster ActionBroadcaster { get; }
+    IActionBroadcaster PreloadingActionBroadcaster { get; }
 }

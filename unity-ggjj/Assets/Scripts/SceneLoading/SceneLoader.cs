@@ -99,7 +99,7 @@ public class SceneLoader : MonoBehaviour, ISceneLoader
     private void SetNarrativeScript()
     {
         var gameState = FindObjectOfType<NarrativeGameState>();
-        gameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(NarrativeScript);
+        gameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(NarrativeScript, gameState.PreloadingActionBroadcaster);
         gameState.StartGame();
     }
 }

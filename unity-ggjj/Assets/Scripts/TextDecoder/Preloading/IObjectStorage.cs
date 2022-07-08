@@ -1,7 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public interface IObjectStorage
 {
-    public T GetObject<T>(string objectName) where T : class;
-    public IEnumerable<T> GetObjectsOfType<T>() where T : class;
+    T GetObject<T>(string objectName) where T : class;
+    IEnumerable<T> GetObjectsOfType<T>() where T : class;
+
+    void Add(Object obj);
+    bool Contains(Object obj);
 }

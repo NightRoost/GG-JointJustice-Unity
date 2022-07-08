@@ -1,4 +1,5 @@
 using System;
+using TextDecoder;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -7,72 +8,65 @@ using Object = UnityEngine.Object;
 /// Action decoder calls the methods which are used to load any required objects.
 /// Objects are then stored in the assign ObjectStorage object.
 /// </summary>
-public class ObjectPreloader : ActionDecoderBase
+public class ObjectPreloader : MonoBehaviour
 {
-    private readonly ObjectStorage _objectStorage;
-
-    public ObjectPreloader(ObjectStorage objectStorage)
-    {
-        _objectStorage = objectStorage;
-    }
-
-    #region Actions
-    protected override void ADD_EVIDENCE(EvidenceAssetName evidenceName)
-    {
-        LoadEvidence(evidenceName);
-    }
-
-    protected override void ADD_RECORD(ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-
-    protected override void PLAY_SFX(SfxAssetName sfx)
-    {
-        LoadObject<AudioClip>($"Audio/SFX/{sfx}");
-    }
-
-    protected override void PLAY_SONG(SongAssetName songName, float transitionTime = 0)
-    {
-        LoadObject<AudioClip>($"Audio/Music/{songName}");
-    }
-
-    protected override void SCENE(SceneAssetName sceneName)
-    {
-        LoadObject<BGScene>($"BGScenes/{sceneName}");
-    }
-
-    protected override void SHOW_ITEM(CourtRecordItemName itemName, ItemDisplayPosition itemPos)
-    {
-        LoadEvidence(itemName);
-    }
-
-    protected override void ACTOR(ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-
-    protected override void SPEAK(ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-
-    protected override void SPEAK_UNKNOWN(ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-
-    protected override void THINK(ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-
-    protected override void SET_ACTOR_POSITION(string slotName, ActorAssetName actorName)
-    {
-        LoadActor(actorName);
-    }
-    #endregion
+    [SerializeField] private NarrativeGameState _narrativeGameState;
     
+    protected void ADD_EVIDENCE(string[] parameters)
+    {
+        LoadEvidence(new AssetName(parameters[0]));
+    }
+
+    protected void ADD_RECORD(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[0]));
+    }
+
+    protected  void PLAY_SFX(string[] parameters)
+    {
+        LoadObject<AudioClip>($"Audio/SFX/{new AssetName(parameters[0])}");
+    }
+
+    protected  void PLAY_SONG(string[] parameters)
+    {
+        LoadObject<AudioClip>($"Audio/Music/{new AssetName(parameters[0])}");
+    }
+
+    protected  void SCENE(string[] parameters)
+    {
+        LoadObject<BGScene>($"BGScenes/{new AssetName(parameters[0])}");
+    }
+
+    protected  void SHOW_ITEM(string[] parameters)
+    {
+        LoadEvidence(new AssetName(parameters[0]));
+    }
+
+    protected  void ACTOR(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[0]));
+    }
+
+    protected  void SPEAK(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[0]));
+    }
+
+    protected  void SPEAK_UNKNOWN(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[0]));
+    }
+
+    protected  void THINK(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[0]));
+    }
+
+    protected  void SET_ACTOR_POSITION(string[] parameters)
+    {
+        LoadActor(new AssetName(parameters[1]));
+    }
+
     private void LoadActor(string actorName)
     {
         LoadObject<ActorData>($"Actors/{actorName}");
@@ -92,9 +86,9 @@ public class ObjectPreloader : ActionDecoderBase
         try
         {
             var obj = Resources.Load<T>(path);
-            if (!_objectStorage.Contains(obj))
+            if (!_narrativeGameState.ObjectStorage.Contains(obj))
             {
-                _objectStorage.Add(obj);
+                _narrativeGameState.ObjectStorage.Add(obj);
             }
         }
         catch (NullReferenceException exception)

@@ -18,7 +18,7 @@ public class DebugGameStarter : MonoBehaviour
         
         Debug.Log($"DebugGameStarter: Running script {_narrativeScript.name}");
 
-        _narrativeGameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(_narrativeScript);
+        _narrativeGameState.NarrativeScriptStorage.NarrativeScript = new NarrativeScript(_narrativeScript, _narrativeGameState.PreloadingActionBroadcaster);
         _narrativeGameState.StartGame();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ink.Runtime;
 using Ink.UnityIntegration;
+using TextDecoder;
 using UnityEditor;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ namespace Editor.Ink
             var story = new Story(inkFile.jsonAsset.text);
             NarrativeScript.ReadContent(story.mainContentContainer.content, lines, story);
 
-            foreach (var line in lines.Where(t => t[0] == ActionDecoderBase.ACTION_TOKEN))
+            foreach (var line in lines.Where(t => t[0] == ScriptAction.ACTION_TOKEN))
             {
                 try
                 {
