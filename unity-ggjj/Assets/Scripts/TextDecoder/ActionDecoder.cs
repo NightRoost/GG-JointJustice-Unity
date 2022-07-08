@@ -143,43 +143,43 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="sfx" validFiles="Assets/Resources/Audio/SFX/*.wav">Filename of a sound effect</param>
     /// <example>&amp;PLAY_SFX:EvidenceShoop</example>
     /// <category>Audio</category>
-    protected override void PLAY_SFX(SfxAssetName sfx)
-    {
-        NarrativeGameState.AudioController.PlaySfx(NarrativeGameState.ObjectStorage.GetObject<AudioClip>(sfx));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Plays the provided song. Stops the current one. Loops infinitely.</summary>
-    /// <param name="songName" validFiles="Assets/Resources/Audio/Music/*.mp3">Filename of a song</param>
-    /// <param name="optional_transitionTime">(Optional) The time taken to transition between songs</param>
-    /// <example>&amp;PLAY_SONG:TurnaboutGrumpsters</example>
-    /// <category>Audio</category>
-    protected override void PLAY_SONG(SongAssetName songName, float optional_transitionTime = 0)
-    {
-        NarrativeGameState.AudioController.PlaySong(NarrativeGameState.ObjectStorage.GetObject<AudioClip>(songName), optional_transitionTime);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>If music is currently playing, stop it.</summary>
-    /// <example>&amp;STOP_SONG</example>
-    /// <category>Audio</category>
-    private void STOP_SONG()
-    {
-        NarrativeGameState.AudioController.StopSong();
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>
-    /// Fade out the currently playing song over a given time
-    /// </summary>
-    /// <param name="time">The time taken to fade out</param>
-    /// <example>&amp;FADE_OUT_SONG:2</example>
-    /// <category>Audio</category>
-    private void FADE_OUT_SONG(float time)
-    {
-        NarrativeGameState.AudioController.FadeOutSong(time);
-        OnActionDone?.Invoke();
-    }
+    // protected override void PLAY_SFX(SfxAssetName sfx)
+    // {
+    //     NarrativeGameState.AudioController.PlaySfx(NarrativeGameState.ObjectStorage.GetObject<AudioClip>(sfx));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Plays the provided song. Stops the current one. Loops infinitely.</summary>
+    // /// <param name="songName" validFiles="Assets/Resources/Audio/Music/*.mp3">Filename of a song</param>
+    // /// <param name="optional_transitionTime">(Optional) The time taken to transition between songs</param>
+    // /// <example>&amp;PLAY_SONG:TurnaboutGrumpsters</example>
+    // /// <category>Audio</category>
+    // protected override void PLAY_SONG(SongAssetName songName, float optional_transitionTime = 0)
+    // {
+    //     NarrativeGameState.AudioController.PlaySong(NarrativeGameState.ObjectStorage.GetObject<AudioClip>(songName), optional_transitionTime);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>If music is currently playing, stop it.</summary>
+    // /// <example>&amp;STOP_SONG</example>
+    // /// <category>Audio</category>
+    // private void STOP_SONG()
+    // {
+    //     NarrativeGameState.AudioController.StopSong();
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>
+    // /// Fade out the currently playing song over a given time
+    // /// </summary>
+    // /// <param name="time">The time taken to fade out</param>
+    // /// <example>&amp;FADE_OUT_SONG:2</example>
+    // /// <category>Audio</category>
+    // private void FADE_OUT_SONG(float time)
+    // {
+    //     NarrativeGameState.AudioController.FadeOutSong(time);
+    //     OnActionDone?.Invoke();
+    // }
     #endregion
 
     #region SceneController
