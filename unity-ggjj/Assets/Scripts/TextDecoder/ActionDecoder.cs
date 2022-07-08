@@ -187,194 +187,194 @@ public class ActionDecoder : ActionDecoderBase
     /// <param name="timeInSeconds">number of seconds for the fade out to take. Decimal numbers allowed</param>
     /// <example>&amp;FADE_OUT:1</example>
     /// <category>Scene</category>
-    private void FADE_OUT(float timeInSeconds)
-    {
-        NarrativeGameState.SceneController.FadeOut(timeInSeconds);
-    }
-
-    /// <summary>Fades the screen in from black, only works if faded out.</summary>
-    /// <param name="timeInSeconds">number of seconds for the fade in to take. Decimal numbers allowed</param>
-    /// <example>&amp;FADE_IN:1</example>
-    /// <category>Scene</category>
-    private void FADE_IN(float timeInSeconds)
-    {
-        NarrativeGameState.SceneController.FadeIn(timeInSeconds);
-    }
-
-    /// <summary>Pans the camera over a given amount of time to a given position in a straight line. Continues story after starting. Use WAIT to add waiting for completion.</summary>
-    /// <param name="duration">number of seconds for the fade in to take. Decimal numbers allowed</param>
-    /// <param name="x">x axis position to pan to (0 is the default position)</param>
-    /// <param name="y">y axis position to pan to (0 is the default position)</param>
-    /// <example>&amp;CAMERA_PAN:2,0,-204</example>
-    /// <category>Scene</category>
-    private void CAMERA_PAN(float duration, int x, int y)
-    {
-        NarrativeGameState.SceneController.PanCamera(duration, new Vector2Int(x, y));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Sets the camera to a given position.</summary>
-    /// <param name="x">x axis position to pan to (0 is the default position)</param>
-    /// <param name="y">y axis position to pan to (0 is the default position)</param>
-    /// <example>&amp;CAMERA_SET:0,-204</example>
-    /// <category>Scene</category>
-    private void CAMERA_SET(int x, int y)
-    {
-        NarrativeGameState.SceneController.SetCameraPos(new Vector2Int(x, y));
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Shakes the screen.</summary>
-    /// <param name="intensity">Decimal number representing the intensity of the screen shake</param>
-    /// <param name="duration">Decimal number representing the duration of the shake in seconds</param>
-    /// <param name="isBlocking">(Optional, `false` by default) `true` or `false` for whether the narrative script should continue immediately (`false`) or wait for the shake to finish (`true`)</param>
-    /// <example>&amp;SHAKE_SCREEN:1,0.5,true</example>
-    /// <category>Scene</category>
-    private void SHAKE_SCREEN(float intensity, float duration, bool isBlocking = false)
-    {
-        NarrativeGameState.SceneController.ShakeScreen(intensity, duration, isBlocking);
-    }
-
-    /// <summary>Sets the scene. If an actor was already attached to target scene, it will show up as well.</summary>
-    /// <param name="sceneName" validFiles="Assets/Resources/BGScenes/*.prefab">Name of a scene</param>
-    /// <example>&amp;SCENE:TMPH_Court</example>
-    /// <category>Scene</category>
-    protected override void SCENE(SceneAssetName sceneName)
-    {
-        NarrativeGameState.SceneController.SetScene(sceneName);
-        OnActionDone?.Invoke();
-    }
-    
-    /// <summary>Shows a piece of evidence or actor on the screen in the given position.</summary>
-    /// <param name="itemName" validFiles="Assets/Resources/**.asset">Name of a piece of evidence or actor to show</param>
-    /// <param name="itemPos">`Left`, `Right` or `Middle`</param>
-    /// <example>&amp;SHOW_ITEM:Switch,Left</example>
-    /// <category>Scene</category>
-    protected override void SHOW_ITEM(CourtRecordItemName itemName, ItemDisplayPosition itemPos)
-    {
-        NarrativeGameState.SceneController.ShowItem(NarrativeGameState.ObjectStorage.GetObject<ICourtRecordObject>(itemName), itemPos);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Hides the piece of evidence shown when using SHOW_ITEM.</summary>
-    /// <example>&amp;HIDE_ITEM</example>
-    /// <category>Scene</category>
-    private void HIDE_ITEM()
-    {
-        NarrativeGameState.SceneController.HideItem();
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Plays a fullscreen animation.</summary>
-    /// <param name="animationName" validFiles="Assets/Animations/FullscreenAnimations/*.anim">Name of a fullscreen animation to play</param>
-    /// <example>&amp;PLAY_ANIMATION:GavelHit</example>
-    /// <category>Scene</category>
-    private void PLAY_ANIMATION(FullscreenAnimationAssetName animationName)
-    {
-        NarrativeGameState.SceneController.PlayAnimation(animationName);
-    }
-
-    /// <summary>Makes the camera jump to focus on the target sub-position of the currently active scene.</summary>
-    /// <param name="slotName">Name of an actor slot in the currently active scene</param>
-    /// <example>&amp;JUMP_TO_POSITION:1</example>
-    /// <category>Scene</category>
-    private void JUMP_TO_POSITION(string slotName)
-    {
-        NarrativeGameState.SceneController.JumpToActorSlot(slotName);
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Makes the camera pan to focus on the target sub-position of the currently active scene. Takes the provided amount of time to complete. If you want the system to wait for completion, call WAIT with the appropriate amount of seconds afterwards.</summary>
-    /// <param name="slotName">Name of an actor slot in the currently active scene</param>
-    /// <param name="panDuration">Decimal number representing the amount of time the pan should take in seconds</param>
-    /// <example>&amp;PAN_TO_POSITION:1,1</example>
-    /// <category>Scene</category>
-    private void PAN_TO_POSITION(string slotName, float panDuration)
-    {
-        NarrativeGameState.SceneController.PanToActorSlot(slotName, panDuration);
-    }
-
-    /// <summary>Restarts the currently playing script from the beginning.</summary>
-    /// <example>&amp;RELOAD_SCENE</example>
-    /// <category>Scene</category>
-    private void RELOAD_SCENE()
-    {
-        NarrativeGameState.SceneController.ReloadScene();
-    }
-
-    /// <summary>Issues a penalty / deducts one of the attempts available to a player to find the correct piece of evidence or actor during a cross examination.</summary>
-    /// <example>&amp;ISSUE_PENALTY</example>
-    /// <category>Cross Examination</category>
-    private void ISSUE_PENALTY()
-    {
-        NarrativeGameState.PenaltyManager.Decrement();
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Waits for the specified amount of seconds before continuing automatically.</summary>
-    /// <param name="seconds">Time in seconds to wait</param>
-    /// <example>&amp;WAIT:1</example>
-    /// <category>Other</category>
-    private void WAIT(float seconds)
-    {
-        NarrativeGameState.SceneController.Wait(seconds);
-    }
-
-    /// <summary>Plays an "Objection!" animation and sound effect for the specified actor.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;OBJECTION:Arin</example>
-    /// <category>Dialogue</category>
-    private void OBJECTION(ActorAssetName actorName)
-    {
-        SHOUT(actorName, "Objection", true);
-    }
-
-    /// <summary>Plays a "Take that!" animation and sound effect for the specified actor.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;TAKE_THAT:Arin</example>
-    /// <category>Dialogue</category>
-    private void TAKE_THAT(ActorAssetName actorName)
-    {
-        SHOUT(actorName, "TakeThat", true);
-    }
-
-    /// <summary>Plays a "Hold it!" animation and sound effect for the specified actor.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
-    /// <example>&amp;HOLD_IT:Arin</example>
-    /// <category>Dialogue</category>
-    private void HOLD_IT(ActorAssetName actorName)
-    {
-        SHOUT(actorName, "HoldIt", true);
-    }
-
-    /// <summary>Uses the specified actor to play the specified shout.</summary>
-    /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor to use</param>
-    /// <param name="shoutName" validFiles="Assets/Images/Shouts/*.png">Name of the shout to play</param>
-    /// <param name="allowRandomShouts">When set to true, there is a small chance of this shout instead being replaced with a random special shout</param>
-    /// <example>&amp;SHOUT:Arin,OBJECTION,false</example>
-    /// <category>Dialogue</category>
-    private void SHOUT(ActorAssetName actorName, string shoutName, bool allowRandomShouts = false)
-    {
-        NarrativeGameState.SceneController.Shout(actorName, shoutName, allowRandomShouts);
-    }
-
-    /// <summary>Enables the flashing witness testimony sign in the upper left corner of the screen.</summary>
-    /// <example>&amp;BEGIN_WITNESS_TESTIMONY</example>
-    /// <category>Cross Examination</category>
-    private void BEGIN_WITNESS_TESTIMONY()
-    {
-        NarrativeGameState.SceneController.WitnessTestimonyActive = true;
-        OnActionDone?.Invoke();
-    }
-
-    /// <summary>Disables the flashing witness testimony sign in the upper left corner of the screen.</summary>
-    /// <example>&amp;END_WITNESS_TESTIMONY</example>
-    /// <category>Cross Examination</category>
-    private void END_WITNESS_TESTIMONY()
-    {
-        NarrativeGameState.SceneController.WitnessTestimonyActive = false;
-        OnActionDone?.Invoke();
-    }
+    // private void FADE_OUT(float timeInSeconds)
+    // {
+    //     NarrativeGameState.SceneController.FadeOut(timeInSeconds);
+    // }
+    //
+    // /// <summary>Fades the screen in from black, only works if faded out.</summary>
+    // /// <param name="timeInSeconds">number of seconds for the fade in to take. Decimal numbers allowed</param>
+    // /// <example>&amp;FADE_IN:1</example>
+    // /// <category>Scene</category>
+    // private void FADE_IN(float timeInSeconds)
+    // {
+    //     NarrativeGameState.SceneController.FadeIn(timeInSeconds);
+    // }
+    //
+    // /// <summary>Pans the camera over a given amount of time to a given position in a straight line. Continues story after starting. Use WAIT to add waiting for completion.</summary>
+    // /// <param name="duration">number of seconds for the fade in to take. Decimal numbers allowed</param>
+    // /// <param name="x">x axis position to pan to (0 is the default position)</param>
+    // /// <param name="y">y axis position to pan to (0 is the default position)</param>
+    // /// <example>&amp;CAMERA_PAN:2,0,-204</example>
+    // /// <category>Scene</category>
+    // private void CAMERA_PAN(float duration, int x, int y)
+    // {
+    //     NarrativeGameState.SceneController.PanCamera(duration, new Vector2Int(x, y));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Sets the camera to a given position.</summary>
+    // /// <param name="x">x axis position to pan to (0 is the default position)</param>
+    // /// <param name="y">y axis position to pan to (0 is the default position)</param>
+    // /// <example>&amp;CAMERA_SET:0,-204</example>
+    // /// <category>Scene</category>
+    // private void CAMERA_SET(int x, int y)
+    // {
+    //     NarrativeGameState.SceneController.SetCameraPos(new Vector2Int(x, y));
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Shakes the screen.</summary>
+    // /// <param name="intensity">Decimal number representing the intensity of the screen shake</param>
+    // /// <param name="duration">Decimal number representing the duration of the shake in seconds</param>
+    // /// <param name="isBlocking">(Optional, `false` by default) `true` or `false` for whether the narrative script should continue immediately (`false`) or wait for the shake to finish (`true`)</param>
+    // /// <example>&amp;SHAKE_SCREEN:1,0.5,true</example>
+    // /// <category>Scene</category>
+    // private void SHAKE_SCREEN(float intensity, float duration, bool isBlocking = false)
+    // {
+    //     NarrativeGameState.SceneController.ShakeScreen(intensity, duration, isBlocking);
+    // }
+    //
+    // /// <summary>Sets the scene. If an actor was already attached to target scene, it will show up as well.</summary>
+    // /// <param name="sceneName" validFiles="Assets/Resources/BGScenes/*.prefab">Name of a scene</param>
+    // /// <example>&amp;SCENE:TMPH_Court</example>
+    // /// <category>Scene</category>
+    // protected override void SCENE(SceneAssetName sceneName)
+    // {
+    //     NarrativeGameState.SceneController.SetScene(sceneName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Shows a piece of evidence or actor on the screen in the given position.</summary>
+    // /// <param name="itemName" validFiles="Assets/Resources/**.asset">Name of a piece of evidence or actor to show</param>
+    // /// <param name="itemPos">`Left`, `Right` or `Middle`</param>
+    // /// <example>&amp;SHOW_ITEM:Switch,Left</example>
+    // /// <category>Scene</category>
+    // protected override void SHOW_ITEM(CourtRecordItemName itemName, ItemDisplayPosition itemPos)
+    // {
+    //     NarrativeGameState.SceneController.ShowItem(NarrativeGameState.ObjectStorage.GetObject<ICourtRecordObject>(itemName), itemPos);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Hides the piece of evidence shown when using SHOW_ITEM.</summary>
+    // /// <example>&amp;HIDE_ITEM</example>
+    // /// <category>Scene</category>
+    // private void HIDE_ITEM()
+    // {
+    //     NarrativeGameState.SceneController.HideItem();
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Plays a fullscreen animation.</summary>
+    // /// <param name="animationName" validFiles="Assets/Animations/FullscreenAnimations/*.anim">Name of a fullscreen animation to play</param>
+    // /// <example>&amp;PLAY_ANIMATION:GavelHit</example>
+    // /// <category>Scene</category>
+    // private void PLAY_ANIMATION(FullscreenAnimationAssetName animationName)
+    // {
+    //     NarrativeGameState.SceneController.PlayAnimation(animationName);
+    // }
+    //
+    // /// <summary>Makes the camera jump to focus on the target sub-position of the currently active scene.</summary>
+    // /// <param name="slotName">Name of an actor slot in the currently active scene</param>
+    // /// <example>&amp;JUMP_TO_POSITION:1</example>
+    // /// <category>Scene</category>
+    // private void JUMP_TO_POSITION(string slotName)
+    // {
+    //     NarrativeGameState.SceneController.JumpToActorSlot(slotName);
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Makes the camera pan to focus on the target sub-position of the currently active scene. Takes the provided amount of time to complete. If you want the system to wait for completion, call WAIT with the appropriate amount of seconds afterwards.</summary>
+    // /// <param name="slotName">Name of an actor slot in the currently active scene</param>
+    // /// <param name="panDuration">Decimal number representing the amount of time the pan should take in seconds</param>
+    // /// <example>&amp;PAN_TO_POSITION:1,1</example>
+    // /// <category>Scene</category>
+    // private void PAN_TO_POSITION(string slotName, float panDuration)
+    // {
+    //     NarrativeGameState.SceneController.PanToActorSlot(slotName, panDuration);
+    // }
+    //
+    // /// <summary>Restarts the currently playing script from the beginning.</summary>
+    // /// <example>&amp;RELOAD_SCENE</example>
+    // /// <category>Scene</category>
+    // private void RELOAD_SCENE()
+    // {
+    //     NarrativeGameState.SceneController.ReloadScene();
+    // }
+    //
+    // /// <summary>Issues a penalty / deducts one of the attempts available to a player to find the correct piece of evidence or actor during a cross examination.</summary>
+    // /// <example>&amp;ISSUE_PENALTY</example>
+    // /// <category>Cross Examination</category>
+    // private void ISSUE_PENALTY()
+    // {
+    //     NarrativeGameState.PenaltyManager.Decrement();
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Waits for the specified amount of seconds before continuing automatically.</summary>
+    // /// <param name="seconds">Time in seconds to wait</param>
+    // /// <example>&amp;WAIT:1</example>
+    // /// <category>Other</category>
+    // private void WAIT(float seconds)
+    // {
+    //     NarrativeGameState.SceneController.Wait(seconds);
+    // }
+    //
+    // /// <summary>Plays an "Objection!" animation and sound effect for the specified actor.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;OBJECTION:Arin</example>
+    // /// <category>Dialogue</category>
+    // private void OBJECTION(ActorAssetName actorName)
+    // {
+    //     SHOUT(actorName, "Objection", true);
+    // }
+    //
+    // /// <summary>Plays a "Take that!" animation and sound effect for the specified actor.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;TAKE_THAT:Arin</example>
+    // /// <category>Dialogue</category>
+    // private void TAKE_THAT(ActorAssetName actorName)
+    // {
+    //     SHOUT(actorName, "TakeThat", true);
+    // }
+    //
+    // /// <summary>Plays a "Hold it!" animation and sound effect for the specified actor.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor</param>
+    // /// <example>&amp;HOLD_IT:Arin</example>
+    // /// <category>Dialogue</category>
+    // private void HOLD_IT(ActorAssetName actorName)
+    // {
+    //     SHOUT(actorName, "HoldIt", true);
+    // }
+    //
+    // /// <summary>Uses the specified actor to play the specified shout.</summary>
+    // /// <param name="actorName" validFiles="Assets/Resources/Actors/*.asset">Name of the actor to use</param>
+    // /// <param name="shoutName" validFiles="Assets/Images/Shouts/*.png">Name of the shout to play</param>
+    // /// <param name="allowRandomShouts">When set to true, there is a small chance of this shout instead being replaced with a random special shout</param>
+    // /// <example>&amp;SHOUT:Arin,OBJECTION,false</example>
+    // /// <category>Dialogue</category>
+    // private void SHOUT(ActorAssetName actorName, string shoutName, bool allowRandomShouts = false)
+    // {
+    //     NarrativeGameState.SceneController.Shout(actorName, shoutName, allowRandomShouts);
+    // }
+    //
+    // /// <summary>Enables the flashing witness testimony sign in the upper left corner of the screen.</summary>
+    // /// <example>&amp;BEGIN_WITNESS_TESTIMONY</example>
+    // /// <category>Cross Examination</category>
+    // private void BEGIN_WITNESS_TESTIMONY()
+    // {
+    //     NarrativeGameState.SceneController.WitnessTestimonyActive = true;
+    //     OnActionDone?.Invoke();
+    // }
+    //
+    // /// <summary>Disables the flashing witness testimony sign in the upper left corner of the screen.</summary>
+    // /// <example>&amp;END_WITNESS_TESTIMONY</example>
+    // /// <category>Cross Examination</category>
+    // private void END_WITNESS_TESTIMONY()
+    // {
+    //     NarrativeGameState.SceneController.WitnessTestimonyActive = false;
+    //     OnActionDone?.Invoke();
+    // }
     #endregion
 
     #region ActorController
