@@ -52,7 +52,7 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void NARRATE()
+        public void NARRATE(string[] parameters)
         {
             _actorController.SetActiveSpeakerToNarrator();
             _actionBroadcaster.OnActionDone();
@@ -60,7 +60,7 @@ namespace TextDecoder
 
         public void SET_POSE(string[] parameters)
         {
-            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]) : null;
+            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]).ToString() : null;
             _actorController.SetPose(new AssetName(parameters[0]), targetActor);
             _actionBroadcaster.OnActionDone();
         }

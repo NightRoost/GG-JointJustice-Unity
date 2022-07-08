@@ -35,7 +35,7 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void PRESENT_EVIDENCE()
+        public void PRESENT_EVIDENCE(string[] parameters)
         {
             _evidenceController.RequirePresentEvidence();
             _narrativeGameState.NarrativeScriptPlayerComponent.NarrativeScriptPlayer.GameMode = GameMode.CrossExamination;

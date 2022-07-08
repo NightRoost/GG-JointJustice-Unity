@@ -52,7 +52,7 @@ namespace TextDecoder
 
         public void SHOW_ITEM(string[] parameters)
         {
-            _sceneController.ShowItem(_narrativeGameState.ObjectStorage.GetObject<ICourtRecordObject>(parameters[0]), (ItemDisplayPosition)Enum.Parse(typeof(ItemDisplayPosition), parameters[1]));
+            _sceneController.ShowItem(_narrativeGameState.ObjectStorage.GetObject<ICourtRecordObject>(new AssetName(parameters[0])), (ItemDisplayPosition)Enum.Parse(typeof(ItemDisplayPosition), parameters[1]));
             _actionBroadcaster.OnActionDone();
         }
 
@@ -64,7 +64,7 @@ namespace TextDecoder
 
         public void PLAY_ANIMATION(string[] parameters)
         {
-            _sceneController.PlayAnimation(parameters[0]);
+            _sceneController.PlayAnimation(new AssetName(parameters[0]));
         }
 
         public void JUMP_TO_POSITION(string[] parameters)

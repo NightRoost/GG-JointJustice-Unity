@@ -37,19 +37,19 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void CONTINUE_DIALOGUE()
+        public void CONTINUE_DIALOGUE(string[] parameters)
         {
             _appearingDialogueController.ContinueDialogue = true;
             _actionBroadcaster.OnActionDone();
         }
 
-        public void APPEAR_INSTANTLY()
+        public void APPEAR_INSTANTLY(string[] parameters)
         {
             _appearingDialogueController.AppearInstantly = true;
             _actionBroadcaster.OnActionDone();
         }
 
-        public void HIDE_TEXTBOX()
+        public void HIDE_TEXTBOX(string[] parameters)
         {
             _appearingDialogueController.TextBoxHidden = true;
             _actionBroadcaster.OnActionDone();

@@ -14,7 +14,7 @@ namespace TextDecoder
             _actionBroadcaster = transform.parent.GetComponent<ActionBroadcaster>();
         }
 
-        public void RESET_PENALTIES()
+        public void RESET_PENALTIES(string[] parameters)
         {
             _penaltyManager.ResetPenalties();
             _actionBroadcaster.OnActionDone();
@@ -36,7 +36,7 @@ namespace TextDecoder
             }
         }
 
-        public void ISSUE_PENALTY()
+        public void ISSUE_PENALTY(string[] parameters)
         {
             _penaltyManager.Decrement();
             _actionBroadcaster.OnActionDone();

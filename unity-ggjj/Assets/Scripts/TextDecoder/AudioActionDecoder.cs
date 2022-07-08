@@ -28,7 +28,7 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void STOP_SONG()
+        public void STOP_SONG(string[] parameters)
         {
             _audioController.StopSong();
             _actionBroadcaster.OnActionDone();

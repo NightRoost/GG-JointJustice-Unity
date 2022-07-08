@@ -1,3 +1,4 @@
+using System;
 using TextDecoder.Parser;
 
 namespace TextDecoder
@@ -27,10 +28,7 @@ namespace TextDecoder
             }
             
             scriptAction.Name = actionWithParameters[0];
-            if (actionWithParameters.Length > 1)
-            {
-                scriptAction.Parameters = actionWithParameters[1].Split(PARAMETER_SEPARATOR);
-            }
+            scriptAction.Parameters = actionWithParameters.Length > 1 ? actionWithParameters[1].Split(PARAMETER_SEPARATOR) : Array.Empty<string>();
 
             return scriptAction;
         }
