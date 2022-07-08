@@ -35,7 +35,7 @@ namespace TextDecoder
                     throw new NotSupportedException($"Switching to game mode '{mode}' is not supported");
             }
         }
-
+        
         public void ISSUE_PENALTY(string[] parameters)
         {
             _penaltyManager.Decrement();

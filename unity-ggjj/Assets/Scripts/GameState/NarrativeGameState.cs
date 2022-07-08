@@ -31,7 +31,7 @@ public class NarrativeGameState : MonoBehaviour, INarrativeGameState
     public IChoiceMenu ChoiceMenu => _choiceMenu;
     public IBGSceneList BGSceneList => _bgSceneList;
     public ISceneLoader SceneLoader => _sceneLoader;
-    public ActionBroadcaster ActionBroadcaster => _actionBroadcaster;
+    public IActionBroadcaster ActionBroadcaster => _actionBroadcaster;
 
     private void Awake()
     {

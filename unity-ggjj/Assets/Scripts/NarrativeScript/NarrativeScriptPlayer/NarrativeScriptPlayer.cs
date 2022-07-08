@@ -108,7 +108,7 @@ public class NarrativeScriptPlayer : INarrativeScriptPlayer
             Continue();
         }
         
-        if (ActionParser.IsAction(nextLine))
+        if (ScriptAction.IsAction(nextLine))
         {
             _narrativeGameState.ActionBroadcaster.BroadcastAction(nextLine);
         }

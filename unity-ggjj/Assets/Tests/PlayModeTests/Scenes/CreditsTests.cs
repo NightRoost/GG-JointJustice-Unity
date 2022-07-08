@@ -1,6 +1,7 @@
 using System.Collections;
 using NUnit.Framework;
 using Tests.PlayModeTests.Tools;
+using TextDecoder;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
@@ -14,10 +15,9 @@ namespace Tests.PlayModeTests.Scenes
         {
             yield return SceneManager.LoadSceneAsync("Game");
             var gameState = Object.FindObjectOfType<NarrativeGameState>();
-            var actionDecoder = Object.FindObjectOfType<ActionDecoderComponent>();
-            actionDecoder.Decoder.NarrativeGameState = gameState;
+            var actionBroadcaster = Object.FindObjectOfType<ActionBroadcaster>();
             Assert.AreNotEqual(SceneManager.GetActiveScene().name, "Credits");
-            actionDecoder.OnNewActionLine("&LOAD_SCENE:Credits\n");
+            actionBroadcaster.BroadcastAction("&LOAD_SCENE:Credits\n");
             yield return TestTools.WaitForState(() => SceneManager.GetActiveScene().name == "Credits");
         }
 

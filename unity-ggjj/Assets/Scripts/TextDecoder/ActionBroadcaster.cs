@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace TextDecoder
 {
-    public class ActionBroadcaster : MonoBehaviour
+    public class ActionBroadcaster : MonoBehaviour, IActionBroadcaster
     {
         [SerializeField] private NarrativeScriptPlayerComponent _narrativeScriptPlayer;
         
         public void BroadcastAction(string actionLine)
         {
-            var scriptAction = new ActionParser(actionLine).ScriptAction;
+            var scriptAction = new ScriptAction(actionLine);
             BroadcastMessage(scriptAction.Name, scriptAction.Parameters, SendMessageOptions.RequireReceiver);
         }
 

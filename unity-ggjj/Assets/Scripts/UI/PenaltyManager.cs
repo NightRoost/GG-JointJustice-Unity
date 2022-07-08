@@ -6,6 +6,8 @@ public class PenaltyManager : MonoBehaviour, IPenaltyManager
 {
     [FormerlySerializedAs("_game")] [SerializeField] private NarrativeGameState _narrativeGameState;
 
+    [SerializeField] private Transform _penaltyBar;
+    
     [Tooltip("Drag the prefab for the penalty UI object here.")]
     [SerializeField]private Animator _penaltyObject;
 
@@ -21,7 +23,7 @@ public class PenaltyManager : MonoBehaviour, IPenaltyManager
     public void OnCrossExaminationStart()
     {
         ResetPenalties();
-        gameObject.SetActive(true);
+        _penaltyBar.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -29,7 +31,7 @@ public class PenaltyManager : MonoBehaviour, IPenaltyManager
     /// </summary>
     public void OnCrossExaminationEnd()
     {
-        gameObject.SetActive(false);
+        _penaltyBar.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -46,7 +48,7 @@ public class PenaltyManager : MonoBehaviour, IPenaltyManager
         
         for (int i = 0; i < _penaltyCount; i++)
         {
-            _penaltyObjects.Enqueue(Instantiate(_penaltyObject, transform));
+            _penaltyObjects.Enqueue(Instantiate(_penaltyObject, _penaltyBar));
         }
     }
 

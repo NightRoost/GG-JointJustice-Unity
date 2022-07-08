@@ -246,7 +246,7 @@ public class ActorController : MonoBehaviour, IActorController
     /// <param name="actorName">Name of the actor to change the visibility of</param>
     /// <exception cref="KeyNotFoundException">Thrown, if no actor with the specified name exists in this scene</exception>
     /// <exception cref="System.NullReferenceException">Thrown, if no Renderer exists on the actor with the specified name</exception>
-    public void SetVisibility(bool shouldShow, ActorAssetName actorName)
+    public void SetVisibility(bool shouldShow, AssetName actorName)
     {
         (actorName == null ? _activeActor : FindActorInInventory(actorName)).Renderer.enabled = shouldShow;
     }

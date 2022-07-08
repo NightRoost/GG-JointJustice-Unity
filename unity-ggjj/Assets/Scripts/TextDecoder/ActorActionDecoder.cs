@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace TextDecoder
 {
-    [RequireComponent(typeof(ActorController))]
     public class ActorActionDecoder : MonoBehaviour
     {
         private ActorController _actorController;
@@ -27,14 +26,14 @@ namespace TextDecoder
 
         public void SHOW_ACTOR(string[] parameters)
         {
-            var actorAssetName = parameters.Length > 1 ? new ActorAssetName(parameters[1]) : null;
+            var actorAssetName = parameters.Length > 0 ? new AssetName(parameters[0]) : null;
             _actorController.SetVisibility(true, actorAssetName);
             _actionBroadcaster.OnActionDone();
         }
 
         public void HIDE_ACTOR(string[] parameters)
         {
-            var actorAssetName = parameters.Length > 1 ? new ActorAssetName(parameters[1]) : null;
+            var actorAssetName = parameters.Length > 0 ? new AssetName(parameters[0]) : null;
             _actorController.SetVisibility(false, actorAssetName);
             _actionBroadcaster.OnActionDone();
         }
@@ -72,7 +71,7 @@ namespace TextDecoder
 
         public void PLAY_EMOTION(string[] parameters)
         {
-            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]) : null;
+            var targetActor = parameters.Length > 1 ? new AssetName(parameters[1]).ToString() : null;
             _actorController.PlayEmotion(new AssetName(parameters[0]), targetActor);
         }
 

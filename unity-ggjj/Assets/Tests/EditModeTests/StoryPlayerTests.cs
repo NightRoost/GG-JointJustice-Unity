@@ -4,6 +4,7 @@ using Ink;
 using Ink.Runtime;
 using Moq;
 using NUnit.Framework;
+using TextDecoder;
 using UnityEngine;
 
 public class StoryPlayerTests
@@ -18,6 +19,7 @@ public class StoryPlayerTests
         _narrativeGameStateMock.SetupGet(mock => mock.AppearingDialogueController).Returns(new Mock<IAppearingDialogueController>().Object);
         _narrativeGameStateMock.SetupGet(mock => mock.ActionDecoder).Returns(new Mock<IActionDecoder>().Object);
         _narrativeGameStateMock.SetupGet(mock => mock.ChoiceMenu).Returns(new Mock<IChoiceMenu>().Object);
+        _narrativeGameStateMock.SetupGet(mock => mock.ActionBroadcaster).Returns(new Mock<IActionBroadcaster>().Object);
         _narrativeScriptPlayer = new NarrativeScriptPlayer(_narrativeGameStateMock.Object);
     }
 
@@ -42,10 +44,9 @@ public class StoryPlayerTests
         _narrativeScriptPlayer.ActiveNarrativeScript = CreateNarrativeScript(TEST_LINE);
 
         var actionDecoder = new ActionDecoder();
-        _narrativeGameStateMock.Setup(mock => mock.ActionDecoder.IsAction(TEST_LINE)).Returns(actionDecoder.IsAction(TEST_LINE));
-        _narrativeGameStateMock.Setup(mock => mock.ActionDecoder.InvokeMatchingMethod(TEST_LINE)).Verifiable();
+        _narrativeGameStateMock.Setup(mock => mock.ActionBroadcaster.BroadcastAction(TEST_LINE)).Verifiable();
         _narrativeScriptPlayer.Continue();
-        _narrativeGameStateMock.Verify(mock => mock.ActionDecoder.InvokeMatchingMethod(It.IsAny<string>()));
+        _narrativeGameStateMock.Verify(mock => mock.ActionBroadcaster.BroadcastAction(It.IsAny<string>()));
     }
 
     [Test]
