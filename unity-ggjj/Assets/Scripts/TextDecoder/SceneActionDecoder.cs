@@ -56,7 +56,7 @@ namespace TextDecoder
             _actionBroadcaster.OnActionDone();
         }
 
-        public void HIDE_ITEM(string[] parameters)
+        public void HIDE_ITEM()
         {
             _sceneController.HideItem();
             _actionBroadcaster.OnActionDone();
